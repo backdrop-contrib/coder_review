@@ -1,0 +1,18 @@
+{
+    "_config_name": "coder_review.settings",
+	"php_ext": [
+    "inc",
+    "php",
+    "install",
+    "test"
+  ],
+	"cache": "",
+	"reviews": [],
+	"severity": 1,
+	"active_modules": 1,
+	"core": 0,
+	"includes": 0,
+	"includes_exclusions": "",
+	"modules": [],
+	"themes": []
+}

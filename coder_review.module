@@ -598,7 +598,7 @@ function coder_review_page_form($form, &$form_state, $arg = '') {
     // Code review non-module core files.
     $module_weight = 0;
     if ($settings['coder_core'] && function_exists('backdrop_alter')) {
-      $php_extensions = variable_get('coder_review_php_ext', array('inc', 'php', 'install', 'test'));
+      $php_extensions = config_get('coder_review.settings', 'php_ext');
       $coder_args = array(
         '#reviews' => $reviews,
         '#severity' => $settings['coder_severity'],
@@ -1005,3 +1005,15 @@ function theme_coder_review_table_cols($variables) {
 /**
  * @} End of Theme functions.
  */
+
+
+/**
+ * Implements hook_config_info().
+ */
+function coder_review_config_info() {
+  $prefixes['coder_review.settings'] = array(
+    'label' => t('Coder Review settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}

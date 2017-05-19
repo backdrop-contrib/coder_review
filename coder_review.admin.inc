@@ -31,8 +31,10 @@ function coder_review_admin_settings($form, &$form_state) {
  */
 function coder_review_settings_form_submit($form, &$form_state) {
   $form_state['storage'] = $form_state['values'];
-  variable_set('coder_modules', _coder_review_settings_array($form_state, 'module'));
-  variable_set('coder_themes', _coder_review_settings_array($form_state, 'theme'));
+  $config = config('coder_review.settings');
+  $config->set('modules', _coder_review_settings_array($form_state, 'module'));
+  $config->set('themes', _coder_review_settings_array($form_state, 'theme'));
+  $config->save();
 }
 
 /**

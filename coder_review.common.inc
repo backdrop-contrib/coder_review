@@ -1307,8 +1307,8 @@ function _coder_review_get_default_settings($arg = 'default') {
     'coder_themes' => array(),
     'coder_ignore' => 1,
   );
-  $settings['coder_reviews'] = _variable_get('coder_reviews', _coder_review_default_reviews());
-  $settings['coder_severity'] = _variable_get('coder_severity', SEVERITY_NORMAL);
+  $settings['coder_reviews'] = _config_get('coder_reviews', _coder_review_default_reviews());
+  $settings['coder_severity'] = _config_get('coder_severity', SEVERITY_NORMAL);
 
   // Determine any options based on the passed in URL.
   switch ($arg) {
@@ -1345,17 +1345,17 @@ function _coder_review_get_default_settings($arg = 'default') {
       break;
 
     case 'default':
-      $settings['coder_active_modules'] = _variable_get('coder_active_modules', 1);
-      $settings['coder_core'] = _variable_get('coder_core', 0);
-      $settings['coder_includes'] = _variable_get('coder_includes', 0);
-      $settings['coder_includes_exclusions'] = _variable_get('coder_includes_exclusions', '');
-      $settings['coder_modules'] = _variable_get('coder_modules', array());
-      $settings['coder_themes'] = _variable_get('coder_themes', array());
+      $settings['coder_active_modules'] = _config_get('coder_active_modules', 1);
+      $settings['coder_core'] = _config_get('coder_core', 0);
+      $settings['coder_includes'] = _config_get('coder_includes', 0);
+      $settings['coder_includes_exclusions'] = _config_get('coder_includes_exclusions', '');
+      $settings['coder_modules'] = _config_get('coder_modules', array());
+      $settings['coder_themes'] = _config_get('coder_themes', array());
       break;
 
     default:
       $settings['coder_includes'] = 1;
-      $settings['coder_includes_exclusions'] = _variable_get('coder_includes_exclusions', '');
+      $settings['coder_includes_exclusions'] = _config_get('coder_includes_exclusions', '');
       // TODO: Does this need to go into coder_review_themes sometimes?
       $settings['coder_modules'] = array($arg => $arg);
       break;
@@ -1464,15 +1464,15 @@ function _l($text, $path, $options = array()) {
  *
  * @see variable_get()
  */
-function _variable_get($variable, $default = NULL) {
-  return function_exists('variable_get') ? variable_get($variable, $default) : $default;
+function _config_get($variable, $default = NULL) {
+  return function_exists('config_get') ? config_get('coder_review.settings', $variable) : $default;
 }
 
 /**
  * Return the valid PHP extensions.
  */
 function _coder_review_php_ext() {
-  return _variable_get('coder_review_php_ext', array('inc', 'php', 'install', 'test'));
+  return _config_get('coder_review_php_ext', array('inc', 'php', 'install', 'test'));
 }
 
 /**
