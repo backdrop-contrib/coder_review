@@ -316,10 +316,10 @@ function theme_coder_review_warning($variables) {
   if ($severity_name) {
     $class .= " coder-$severity_name";
   }
-  $path = _coder_review_path() . '/..';
+  $path = _coder_review_path();
   $title = _t('severity: @severity', array('@severity' => $severity_name));
   $img = theme('image', array(
-    'path' => $path . "/images/$severity_name.png",
+    'uri' => $path . "/images/$severity_name.png",
     'alt' => $title,
     'title' => $title,
     'attributes' => array('align' => 'right', 'class' => 'coder'),
@@ -330,7 +330,7 @@ function theme_coder_review_warning($variables) {
     $title = _t('review: @review_@rule', array('@review' => $review_name, '@rule' => $rule_name));
     $review_image = $avail_reviews[$review_name]['#image'];
     $img .= theme('image', array(
-      'path' => (substr($review_image, 0, 7) == 'images/' ? "$path/" : '') . $review_image,
+      'uri' => (substr($review_image, 0, 7) == 'images/' ? "$path/" : '') . $review_image,
       'alt' => $title,
       'title' => $title,
       'attributes' => array('align' => 'right', 'class' => 'coder-review'),
@@ -339,7 +339,7 @@ function theme_coder_review_warning($variables) {
   }
   if (!empty($description)) {
     $img .= theme('image', array(
-      'path' => $path . '/images/more.png',
+      'uri' => $path . '/images/more.png',
       'alt' => t('click to read more'),
       'atributes' => array('align' => 'right', 'class' => 'coder-more'),
       'getsize' => FALSE,
