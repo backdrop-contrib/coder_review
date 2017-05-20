@@ -6,13 +6,20 @@
     "install",
     "test"
   ],
-	"cache": "",
-	"reviews": [],
-	"severity": 1,
-	"active_modules": 1,
-	"core": 0,
-	"includes": 0,
-	"includes_exclusions": "",
-	"modules": [],
-	"themes": []
+	"coder_cache": "",
+	"coder_reviews": {
+    "style": "style",
+    "sql": "sql",
+    "comment": "comment",
+    "security": "security",
+    "i18n": "i18n",
+    "sniffer": "sniffer"
+  },
+	"coder_severity": 1,
+	"coder_active_modules": 1,
+	"coder_core": 0,
+	"coder_includes": 0,
+	"coder_includes_exclusions": "",
+	"coder_modules": [],
+	"coder_themes": []
 }

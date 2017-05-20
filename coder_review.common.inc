@@ -1307,8 +1307,8 @@ function _coder_review_get_default_settings($arg = 'default') {
     'coder_themes' => array(),
     'coder_ignore' => 1,
   );
-  $settings['coder_reviews'] = _config_get('reviews', _coder_review_default_reviews());
-  $settings['coder_severity'] = _config_get('severity', SEVERITY_NORMAL);
+  $settings['coder_reviews'] = _config_get('coder_reviews', _coder_review_default_reviews());
+  $settings['coder_severity'] = _config_get('coder_severity', SEVERITY_NORMAL);
 
   // Determine any options based on the passed in URL.
   switch ($arg) {

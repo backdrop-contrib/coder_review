@@ -153,6 +153,7 @@ function coder_review_form_system_modules_alter(&$form, &$form_state, $form_id) 
  * @see coder_review_page_form()
  */
 function _coder_review_settings_form(array $settings, &$system, &$files) {
+  dpm($settings);
   // Bootstrap enough to run.
   if (!function_exists('_coder_review_reviews')) {
     require_once realpath(__DIR__) . '/coder_review.common.inc';
@@ -406,7 +407,7 @@ function _coder_review_settings_form(array $settings, &$system, &$files) {
       '#collapsed' => TRUE,
       'checkboxes' => array(
         '#theme' => 'coder_review_table_cols',
-        '#cols' => 2,
+        '#cols' => 3,
       ),
     );
     if ($settings['coder_all']) {
