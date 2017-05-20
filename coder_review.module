@@ -57,17 +57,16 @@ function coder_review_permission() {
  * Implements hook_menu().
  */
 function coder_review_menu() {
-  $items['admin/config/development/coder/review'] = array(
+  $items['admin/config/development/coder-review'] = array(
     'title' => 'Review',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('coder_review_page_form'),
     'access arguments' => array('view code review'),
-    'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -2,
   );
   // @ignore upgrade6x_1
   foreach (array('select', 'default', 'active', 'core', 'all', 'files', 'patches') as $delta => $option) {
-    $items["admin/config/development/coder/review/$option"] = array(
+    $items["admin/config/development/coder-review/$option"] = array(
       'title' => backdrop_ucfirst($option),
       'page callback' => 'backdrop_get_form',
       'page arguments' => array('coder_review_page_form', $option),
@@ -76,7 +75,7 @@ function coder_review_menu() {
       'weight' => $delta,
     );
   }
-  $items['admin/config/development/coder/review/settings'] = array(
+  $items['admin/config/development/coder-review/settings'] = array(
     'title' => 'Settings',
     'description' => 'Select code review plugins and modules',
     'page callback' => 'backdrop_get_form',
@@ -339,7 +338,7 @@ function _coder_review_settings_form(array $settings, &$system, &$files) {
     // Get the modules and theme.
     $sql = "SELECT name, filename, type, status FROM {system} WHERE type='module' OR type='theme' ORDER BY weight ASC, filename ASC";
     $result = db_query($sql);
-    $system_modules = $system_themes = array();
+    $system_modules = $system_themes = $system_core = array();
     foreach ($result as $system) {
       $display_name = $system->name;
       if ($system->status) {
@@ -617,7 +616,7 @@ function coder_review_page_form($form, &$form_state, $arg = '') {
         '#collapsed' => TRUE,
         '#weight' => ++$module_weight,
       );
-      $phpfiles = _file_list('.', '/\.php$/', FALSE);
+      $phpfiles = _file_list('./core', '/\.php$/', FALSE);
       sort($phpfiles);
       _coder_review_page_form_includes(
         $form,
@@ -636,7 +635,7 @@ function coder_review_page_form($form, &$form_state, $arg = '') {
         '#collapsed' => TRUE,
         '#weight' => ++$module_weight,
       );
-      $includefiles = _file_list('includes', '/\.inc$/');
+      $includefiles = _file_list('core/includes', '/\.inc$/');
       sort($includefiles);
       _coder_review_page_form_includes(
         $form,
