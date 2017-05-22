@@ -117,7 +117,7 @@ function coder_review_form_system_modules_alter(&$form, &$form_state, $form_id) 
           $module['links']['coder_review'] = array(
             '#type' => 'link',
             '#title' => t('Code review'),
-            '#href' => "admin/config/development/coder/review/$module_name",
+            '#href' => "admin/config/development/coder-review/$module_name",
             '#options' => array('attributes' => array('class' => array('module-link', 'module-link-coder-review'), 'title' => t('Coder review'))),
           );
           $package['#theme'] = 'coder_review_modules_fieldset';
@@ -356,7 +356,7 @@ function _coder_review_settings_form(array $settings, &$system, &$files) {
       else {
         $system_themes[$system->name] = $system->name;
       }
-      $system_links[$system->name] = _l($display_name, "admin/config/development/coder/review/$system->name");
+      $system_links[$system->name] = _l($display_name, "admin/config/development/coder-review/$system->name");
       $files[$system->name] = $system->filename;
     }
     asort($system_links);
@@ -793,7 +793,7 @@ function coder_review_page_form($form, &$form_state, $arg = '') {
         '#weight' => -1,
       );
       if ($form['settings']['#collapsed']) {
-        $form['settings']['#prefix'] = _t('<div class="coder-settings">Use the Selection form to select options for this code review, or change the <a href="@settings">Default Settings</a> and use the <a href="@default">Default</a> tab above.</div>', array('@settings' => url('admin/config/development/coder/review/settings'), '@default' => url('admin/config/development/coder/review/default')));
+        $form['settings']['#prefix'] = _t('<div class="coder-settings">Use the Selection form to select options for this code review, or change the <a href="@settings">Default Settings</a> and use the <a href="@default">Default</a> tab above.</div>', array('@settings' => url('admin/config/development/coder-review/settings'), '@default' => url('admin/config/development/coder-review/default')));
       }
       $form['settings'][] = $coder_form;
 

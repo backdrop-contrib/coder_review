@@ -3,4 +3,4 @@ description = "Developer module" which reviews your code identifying coding styl
 package = Development
 backdrop = 1.x
 type = module
-configure = admin/config/development/coder/review
+configure = admin/config/development/coder-review
