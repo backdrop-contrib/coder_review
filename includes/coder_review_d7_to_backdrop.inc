@@ -14,6 +14,125 @@ function coder_review_d7_to_backdrop_reviews() {
     '#type' => 'callback',
     '#value' => '_coder_review_d7_to_backdrop_variable_callback',
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$classes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $classes_array is now $classes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $attributes_array is now $attributes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$content_attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $content_attributes_array is now $content_attributes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$html_attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $html_attributes_array is now $html_attributes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$body_attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $body_attributes_array is now $body_attributes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$item_attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $item_attributes_array is now $item_attributes (flatten in template file)',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$title_attributes_array',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $item_attributes_array has been removed',
+      '#link' => _backdropnode(28554),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'print\s*\$head\;',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $head variable has been removed. Use backdrop_get_html_head()',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('tpl.php'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'print\s*\$styles\;',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $styles variable has been removed. Use backdrop_get_css()',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('tpl.php'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'print\s*\$scripts\;',
+    '#warning' => array(
+      '#text' => 'Process layer has been removed. $scripts variable has been removed. Use backdrop_get_js()',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('tpl.php'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]_color_page_alter\s*\(',
+    '#warning' => array(
+      '#text' => 'Function _color_page_alter() layer has been removed.',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('tpl.php'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]contextual_process\s*\(',
+    '#warning' => array(
+      '#text' => 'Function contextual_process() layer has been removed.',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('contextual.module'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]template_process_username\s*\(',
+    '#warning' => array(
+      '#text' => 'Function template_process_username() layer has been removed.',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('user.module'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]template_process_views_view\s*\(',
+    '#warning' => array(
+      '#text' => 'Function template_process_views_view() layer has been removed.',
+      '#link' => _backdropnode(28554),
+    ),
+    '#filename' => array('theme.inc'),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
