@@ -151,6 +151,7 @@ function coder_review_d7_to_backdrop_reviews() {
       '#text' => 'getInfo() is deprecated. Information about tests should now be in module.tests.info.',
       '#link' => _backdropnode(26860),
     ),
+    '#filename' => array('test'),
   );
 
   $review = array(
