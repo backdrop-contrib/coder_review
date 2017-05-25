@@ -240,6 +240,38 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26863),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '(\$node|\$account|\$file|\$entity|\$term)\s*=\s*new\sstdClass\(\)',
+    '#warning' => array(
+      '#text' => 'Nodes, Users, Files, Terms and Entities are now classed objects. Consider initializing with entity_create()',
+      '#link' => _backdropnode(26881),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '(\$vocabulary)\s*=\s*new\sstdClass\(\)',
+    '#warning' => array(
+      '#text' => 'Vocabularies are now classed objects. Consider initializing with <code>$vocabulary = new TaxonomyVocabulary</code>',
+      '#link' => _backdropnode(26881),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_save\s*\(\s*(' . $argex . '\s*,\s*){1,}(' . $argex . ')\s*\)',
+    '#warning' => array(
+      '#text' => 'user_save() now only takes one parameter: a User entity.',
+      '#link' => _backdropnode(26867),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(user_insert|user_update|user_presave)\s*\(\s*&\$edit,\s*\$account,\s*\$category\s*\)',
+    '#warning' => array(
+      '#text' => 'User hooks now take a single argument: $account',
+      '#link' => _backdropnode(26867),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
