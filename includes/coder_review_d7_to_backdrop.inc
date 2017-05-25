@@ -259,37 +259,77 @@ function coder_review_d7_to_backdrop_reviews() {
  */
 function _coder_review_d7_to_backdrop_variable_callback(&$coder_args, $review, $rule, $lines, &$results) {
   $states = array(
+    'block_test_caching',
+    'block_test_content',
+    'config_sync',
     'cron_key',
     'cron_last',
     'css_js_query_string',
+    'dependencies',
+    'dependency_test',
+    'entity_cache_test_label',
+    'file_test_hook_file_url_alter',
+    'image_module_test_file_download',
+    'install_profile_modules',
     'install_task',
     'install_time',
-    'maintenance_mode',
-    'block_test_content',
-    'entity_cache_test_label',
-    'node_access_test_private',
-    'image_module_test_file_download',
-    'locale_test_domain',
+    'javascript_parsed',
+    'js_version_query_string',
     'locale_test_content_language_type',
-    'locale_test_language_types',
+    'locale_test_domain',
     'locale_test_language_negotiation_info',
     'locale_test_language_negotiation_info_alter',
+    'locale_test_language_types',
+    'maintenance_mode',
+    'menu_masks',
+    'menu_rebuild_needed',
+    'node_access_needs_rebuild',
+    'node_access_test_private',
     'node_test_node_access_all_uid',
-    'file_test_hook_file_url_alter',
-    'test_verbose_module_hooks',
-    'dependency_test',
-    'dependencies',
-    'update_script_test_requirement_type',
-    'update_test_xml_map',
-    'update_test_system_info',
-    'update_test_update_status',
+    'path_alias_whitelist',
     'test_dynamic_access_argument1',
     'test_dynamic_access_argument2',
-    'views_test_views_data_count',
+    'test_email_collector',
+    'test_module_disable_order',
+    'test_module_enable_order',
+    'test_verbose_module_hooks',
+    'update_last_check',
+    'update_last_email_notification',
+    'update_script_test_requirement_type',
+    'update_test_system_info',
+    'update_test_update_status',
+    'update_test_xml_map',
     'views_test_schema',
     'views_test_views_data',
+    'views_test_views_data_count',
     'views_test_views_plugins',
-    'test_email_collector',
+  );
+
+  $settings = array(
+    '404_fast_html',
+    '404_fast_paths',
+    '404_fast_paths_exclude',
+    'allow_insecure_uploads',
+    'cache_backends',
+    'css_gzip_compression',
+    'file_chmod_directory',
+    'file_chmod_file',
+    'filter_allowed_protocols',
+    'js_gzip_compression',
+    'lock_inc',
+    'mail_line_endings',
+    'mail_system',
+    'maximum_replication_lag',
+    'page_cache_invoke_hooks',
+    'page_cache_without_database',
+    'password_count_log2',
+    'password_inc',
+    'queue_class_*',
+    'queue_default_class',
+    'queue_default_reliable_class',
+    'session_inc',
+    'session_write_interval',
+    'stale_file_threshold',
   );
 
   $argex = '(((&?\$?)[a-zA-Z_]+((\([^)]*\))|\[[^\]]*\])?)|[0-9]+(\.[0-9]*)?|\'\'|"")';
@@ -304,6 +344,15 @@ function _coder_review_d7_to_backdrop_variable_callback(&$coder_args, $review, $
             $tmprule = $rule;
             $tmprule['#warning'] = array(
               '#text' => 'Non-configuration variables have been converted to states system.',
+              '#link' => _backdropnode(28553),
+            );
+            _coder_review_error($results, $tmprule, $severity_name, $lineno, $line, $coder_args['#ignores']);
+          }
+          elseif (in_array($match[2], $settings)) {
+            $severity_name = _coder_review_severity_name($coder_args, $review, $rule);
+            $tmprule = $rule;
+            $tmprule['#warning'] = array(
+              '#text' => 'Non-configuration variables have been converted to settings system.',
               '#link' => _backdropnode(28553),
             );
             _coder_review_error($results, $tmprule, $severity_name, $lineno, $line, $coder_args['#ignores']);
