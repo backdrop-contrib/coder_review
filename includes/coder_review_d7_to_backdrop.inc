@@ -231,6 +231,15 @@ function coder_review_d7_to_backdrop_reviews() {
     ),
     '#filename' => array('tpl.php'),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#source' => 'quote',
+    '#value' => 'admin\/appearance\/settings\'',
+    '#warning' => array(
+      '#text' => 'The global theme settings page at "/admin/appearance/settings" has been removed.',
+      '#link' => _backdropnode(26863),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
