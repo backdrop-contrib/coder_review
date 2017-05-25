@@ -15,6 +15,7 @@ function coder_review_d7_to_backdrop_reviews() {
     '#value' => '_coder_review_d7_to_backdrop_variable_callback',
   );
   $rules[] = array(
+    '#source' => 'all',
     '#type' => 'regex',
     '#value' => '\$classes_array',
     '#warning' => array(
@@ -132,6 +133,24 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(28554),
     ),
     '#filename' => array('theme.inc'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#source' => 'all',
+    '#value' => 'file\[\]\s*\=',
+    '#warning' => array(
+      '#text' => 'The class registry has been replaced with a static class map.',
+      '#link' => _backdropnode(26859),
+    ),
+    '#filename' => array('info'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s*getInfo\s*\(',
+    '#warning' => array(
+      '#text' => 'getInfo() is deprecated. Information about tests should now be in module.tests.info.',
+      '#link' => _backdropnode(26860),
+    ),
   );
 
   $review = array(
