@@ -153,6 +153,84 @@ function coder_review_d7_to_backdrop_reviews() {
     ),
     '#filename' => array('test'),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '(block_role|block_node_type)', // @todo: maybe this should search for db queries using these tables.
+    '#warning' => array(
+      '#text' => 'Block module no longer provides database tables.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(block_view)\s*\(\s*\$delta\s*=\s*\'\'\s*\)',
+    '#warning' => array(
+      '#text' => 'hook_block_view() now receives two additional arguments for $settings and $contexts.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(block_save)\s*\(\s*\$delta\s*=\s*\'\'\s*,\s*\$edit',
+    '#warning' => array(
+      '#text' => 'hook_block_save() now takes the $edit parameter by reference, as in &$edit.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]block_custom_block_get\s*\(',
+    '#warning' => array(
+      '#text' => 'block_custom_block_get() is now block_custom_block_load() and takes a block $delta as parameter rather than $bid.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$page',
+    '#warning' => array(
+      '#text' => '$page variable has been removed.',
+      '#link' => _backdropnode(26861),
+    ),
+    '#filename' => array('tpl.php'),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(page_alter|page_build)\s*\(\s*(&\$page)',
+    '#warning' => array(
+      '#text' => 'hook_page_alter() and hook_page_build() have been removed.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$page\[\'\#show_messages\'\]\s*=\s*FALSE',
+    '#warning' => array(
+      '#text' => 'As the $page renderable no longer exists, the function backdrop_display_messages(FALSE) should be used to hide (or show) messages for a page request.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]drupal_set_page_content\s*\(',
+    '#warning' => array(
+      '#text' => 'drupal_set_page_content() has been removed. Block content is now managed by Layout module\'s UI.',
+      '#link' => _backdropnode(26861),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'callback',
+    '#value' => '_coder_review_d7_to_backdrop_htmltpl_callback',
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '(\$action_links|\$node|\$is_admin)',
+    '#warning' => array(
+      '#text' => '$action_links, $node, $is_admin variables have been removed.',
+      '#link' => _backdropnode(26861),
+    ),
+    '#filename' => array('tpl.php'),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
@@ -234,4 +312,11 @@ function _coder_review_d7_to_backdrop_variable_callback(&$coder_args, $review, $
       }
     }
   }
+}
+
+/**
+ * @todo: add a function header comment.
+ */
+function _coder_review_d7_to_backdrop_htmltpl_callback(&$coder_args, $review, $rule, $lines, &$results) {
+  // Todo: figure out how to detect page.tpl.php.
 }
