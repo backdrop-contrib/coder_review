@@ -578,6 +578,47 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(41648),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]element_sort\s*\(',
+    '#warning' => array(
+      '#text' => 'element_sort() deprecated; use backdrop_sort().',
+      '#link' => _backdropnode(41649),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]element_sort_by_title\s*\(',
+    '#warning' => array(
+      '#text' => 'element_sort_by_title() deprecated; use backdrop_sort().',
+      '#link' => _backdropnode(41649),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]_filter_list_cmp\s*\(',
+    '#warning' => array(
+      '#text' => '_filter_list_cmp() deprecated; use backdrop_sort().',
+      '#link' => _backdropnode(41649),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]_image_effect_definitions_sort\s*\(',
+    '#warning' => array(
+      '#text' => '_image_effect_definitions_sort() deprecated; use backdrop_sort().',
+      '#link' => _backdropnode(41649),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]uasort\s*\(',
+    '#function-not' => '^backdrop_sort$',
+    '#warning' => array(
+      '#text' => 'Consider using backdrop_sort() instead of uasort().',
+      '#link' => _backdropnode(41649),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
