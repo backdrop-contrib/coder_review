@@ -546,6 +546,38 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(41637),
     ),
   );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'theme_dblog_message',
+    '#warning' => array(
+      '#text' => 'theme_dblog_message() has been removed.',
+      '#link' => _backdropnode(41638),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]theme\s*\(\s*\'dblog_message',
+    '#warning' => array(
+      '#text' => 'theme_dblog_message() has been removed.',
+      '#link' => _backdropnode(41638),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]format_username\s*\(',
+    '#warning' => array(
+      '#text' => 'format_username() has been renamed to user_format_name().',
+      '#link' => _backdropnode(41640),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]system_get_date_types\s*\(',
+    '#warning' => array(
+      '#text' => 'system_get_date_types() deprecated; use system_get_date_formats().',
+      '#link' => _backdropnode(41648),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
