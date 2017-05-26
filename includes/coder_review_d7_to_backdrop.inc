@@ -538,6 +538,14 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(41637),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '\$[a-zA-Z_]+\s*=\s*file_delete\s*\(',
+    '#warning' => array(
+      '#text' => 'file_delete() no longer has a return value.',
+      '#link' => _backdropnode(41637),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
