@@ -459,7 +459,7 @@ function coder_review_d7_to_backdrop_reviews() {
     '#function' => '_form$',
     '#value' => 'return\s*system_settings_form\(\$[a-z0-9_]+\)',
     '#warning' => array(
-      '#text' => 'system_settings_form() now requuires a \'#config\' key.',
+      '#text' => 'system_settings_form() now requires a \'#config\' key.',
       '#link' => _backdropnode(28552),
     ),
     '#severity' => 'minor'
@@ -478,6 +478,64 @@ function coder_review_d7_to_backdrop_reviews() {
     '#warning' => array(
       '#text' => 'locale_language_list() has been removed.',
       '#link' => _backdropnode(29321),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'navigation',
+    '#source' => 'quote',
+    '#function' => '(_menu$|_menu_alter$)',
+    '#warning' => array(
+      '#text' => 'The Navigation menu has been removed.',
+      '#link' => _backdropnode(26875),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_get_parents\s*\(',
+    '#warning' => array(
+      '#text' => 'taxonomy_get_parents() has been renamed to taxonomy_term_load_parents().',
+      '#link' => _backdropnode(41635),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_get_parents_all\s*\(',
+    '#warning' => array(
+      '#text' => 'taxonomy_get_parents_all() has been renamed to taxonomy_term_load_parents_all().',
+      '#link' => _backdropnode(41635),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_get_children\s*\(',
+    '#warning' => array(
+      '#text' => 'taxonomy_get_children() has been renamed to taxonomy_term_load_children().',
+      '#link' => _backdropnode(41635),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_get_term_by_name\s*\(',
+    '#warning' => array(
+      '#text' => 'taxonomy_get_term_by_name() has been renamed to taxonomy_term_load_multiple_by_name().',
+      '#link' => _backdropnode(41635),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]file_delete\s*\(\s*(' . $argex . '\s*,\s*){1,}(' . $argex . ')\s*\)',
+    '#warning' => array(
+      '#text' => 'file_delete() now only takes one parameter: a file ID ($fid).',
+      '#link' => _backdropnode(41637),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]file_delete\s*\(\s*\$file',
+    '#warning' => array(
+      '#text' => 'file_delete() now takes a file ID ($fid), not a File object.',
+      '#link' => _backdropnode(41637),
     ),
   );
 
