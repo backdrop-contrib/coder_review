@@ -454,6 +454,16 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(28538),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#function' => '_form$',
+    '#value' => 'return\s*system_settings_form\(\$[a-z0-9_]+\)',
+    '#warning' => array(
+      '#text' => 'system_settings_form() now requuires a \'#config\' key.',
+      '#link' => _backdropnode(28552),
+    ),
+    '#severity' => 'minor'
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
