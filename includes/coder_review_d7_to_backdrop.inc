@@ -432,6 +432,28 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26874),
     ),
   );
+  $rules[] = array(
+    '#source' => 'php',
+    '#type' => 'callback',
+    '#value' => '_coder_review_d7_to_backdrop_removed_module_callback',
+    '#severity' => 'minor'
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'php_eval',
+    '#warning' => array(
+      '#text' => 'php_eval() has been removed.',
+      '#link' => _backdropnode(28538),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(help)\s*\(\s*\$path,\s*\$arg',
+    '#warning' => array(
+      '#text' => 'hook_help() has been removed.',
+      '#link' => _backdropnode(28538),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
@@ -569,4 +591,48 @@ function _coder_review_d7_to_backdrop_variable_callback(&$coder_args, $review, $
  */
 function _coder_review_d7_to_backdrop_htmltpl_callback(&$coder_args, $review, $rule, $lines, &$results) {
   // Todo: figure out how to detect page.tpl.php.
+}
+
+/**
+ * @todo: add a function header comment.
+ */
+function _coder_review_d7_to_backdrop_removed_module_callback(&$coder_args, $review, $rule, $lines, &$results) {
+  $removed_module = array(
+    'aggregator',
+    'dashboard',
+    'forum',
+    'openid',
+    'overlay',
+    'poll',
+    'rdf',
+    'shortcut',
+    'statistics',
+    'tracker',
+    'trigger',
+    'toolbar',
+    'xmlrpc',
+  );
+
+  $filename = $coder_args['#filename'];
+  if (file_exists($filename)) {
+    $lines = file($filename);
+    if ($lines) {
+      foreach ($lines as $lineno => $line) {
+        foreach ($removed_module as $module) {
+          if (preg_match('/_?' . $module . '_?/', $line)) {
+            $severity_name = _coder_review_severity_name($coder_args, $review, $rule);
+            $tmprule = $rule;
+            $tmprule['#warning'] = array(
+              '#text' => 'The !module module has been removed from core. Check that this line does not reference a non-existent module.',
+              '#args' => array(
+                '!module' => $module,
+              ),
+              '#link' => _backdropnode(28538),
+            );
+            _coder_review_error($results, $tmprule, $severity_name, $lineno, $line, $coder_args['#ignores']);
+          }
+        }
+      }
+    }
+  }
 }
