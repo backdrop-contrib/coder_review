@@ -336,6 +336,38 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26869),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_role_load\s*\(\s*\$rid',
+    '#warning' => array(
+      '#text' => 'user_role_load() parameters have changed. Now takes "$role_name" instead of "$rid".',
+      '#link' => _backdropnode(26870),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'user_role_load_by_name',
+    '#warning' => array(
+      '#text' => 'user_role_load_by_name() has been removed.',
+      '#link' => _backdropnode(26870),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'BACKDROP_ANONYMOUS_RID',
+    '#warning' => array(
+      '#text' => 'BACKDROP_ANONYMOUS_RID  is now BACKDROP_ANONYMOUS_ROLE and is the value \'anonymous\' instead of the integer 1.',
+      '#link' => _backdropnode(26870),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'BACKDROP_AUTHENTICATED_RID',
+    '#warning' => array(
+      '#text' => 'BACKDROP_AUTHENTICATED_RID  is now BACKDROP_AUTHENTICATED_ROLE and is the value \'authenticated\' instead of the integer 2.',
+      '#link' => _backdropnode(26870),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
