@@ -272,6 +272,70 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26867),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'taxonomy->vid',
+    '#warning' => array(
+      '#text' => 'Vocabularies no longer have numerically indexed vid. Instead, vocabularies are referenced exclusively by the $vocabulary->machine_name property',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'term->vid',
+    '#warning' => array(
+      '#text' => '$term->vid has been removed. Parent vocabularies are referenced by $term->vocabulary property',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_vocabulary_load\s*\(\s*\$vid',
+    '#warning' => array(
+      '#text' => 'taxonomy_vocabulary_load() parameters have changed. Now takes "$vocabulary_name" instead of "$vid".',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_vocabulary_delete\s*\(\s*\$vid',
+    '#warning' => array(
+      '#text' => 'taxonomy_vocabulary_delete() parameters have changed. Now takes "$vocabulary_name" instead of "$vid".',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_get_tree\s*\(\s*\$vid',
+    '#warning' => array(
+      '#text' => 'taxonomy_get_tree() parameters have changed. Now takes "$vocabulary_name" instead of "$vid".',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_vocabulary_load_multiple\s*\(\s*\$vids',
+    '#warning' => array(
+      '#text' => 'taxonomy_vocabulary_load_multiple() parameters have changed. Now takes "$vocabulary_names" instead of "$vids".',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_term_load_children\s*\(\s*(' . $argex . '\s*,\s*)\$vid',
+    '#warning' => array(
+      '#text' => 'taxonomy_term_load_children() parameters have changed. Now takes "$vocabulary_name" instead of "$vid".',
+      '#link' => _backdropnode(26869),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'taxonomy_vocabulary_machine_name_load',
+    '#warning' => array(
+      '#text' => 'taxonomy_vocabulary_machine_name_load() has been removed.',
+      '#link' => _backdropnode(26869),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
