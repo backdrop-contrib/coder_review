@@ -368,6 +368,70 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26870),
     ),
   );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'field_info_field_by_ids',
+    '#warning' => array(
+      '#text' => 'field_info_field_by_ids() has been removed.',
+      '#link' => _backdropnode(26871),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'theme_checkboxes',
+    '#warning' => array(
+      '#text' => 'theme_checkboxes() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'theme_radios',
+    '#warning' => array(
+      '#text' => 'theme_radios() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]theme\s*\(\s*\'checkboxes',
+    '#warning' => array(
+      '#text' => 'theme_checkboxes() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]theme\s*\(\s*\'radios',
+    '#warning' => array(
+      '#text' => 'theme_radios() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'system_admin_compact_mode',
+    '#warning' => array(
+      '#text' => 'system_admin_compact_mode() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'theme_system_compact_link',
+    '#warning' => array(
+      '#text' => 'theme_system_compact_link() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]theme\s*\(\s*\'system_compact_link',
+    '#warning' => array(
+      '#text' => 'theme_system_compact_link() has been removed.',
+      '#link' => _backdropnode(26874),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
