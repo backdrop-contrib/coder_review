@@ -464,6 +464,22 @@ function coder_review_d7_to_backdrop_reviews() {
     ),
     '#severity' => 'minor'
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]language_list\s*\(\s*' . $argex . '\s*,\s*' . $argex,
+    '#warning' => array(
+      '#text' => 'language_list() parameters have changed.',
+      '#link' => _backdropnode(29321),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'grep',
+    '#value' => 'locale_language_list',
+    '#warning' => array(
+      '#text' => 'locale_language_list() has been removed.',
+      '#link' => _backdropnode(29321),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
