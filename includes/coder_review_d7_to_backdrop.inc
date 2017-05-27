@@ -465,14 +465,6 @@ function coder_review_d7_to_backdrop_reviews() {
     '#severity' => 'minor'
   );
   $rules[] = array(
-    '#type' => 'regex',
-    '#value' => '[\s\(]language_list\s*\(\s*' . $argex . '\s*,\s*' . $argex,
-    '#warning' => array(
-      '#text' => 'language_list() parameters have changed.',
-      '#link' => _backdropnode(29321),
-    ),
-  );
-  $rules[] = array(
     '#type' => 'grep',
     '#value' => 'locale_language_list',
     '#warning' => array(
@@ -617,6 +609,71 @@ function coder_review_d7_to_backdrop_reviews() {
     '#warning' => array(
       '#text' => 'Consider using backdrop_sort() instead of uasort().',
       '#link' => _backdropnode(41649),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#source' => 'allphp',
+    '#value' => '\$form\[\'\#node_edit_form\'\].',
+    '#warning' => array(
+      '#text' => '$form[\'#node_edit_form\'] is no longer set..',
+      '#link' => _backdropnode(41660),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]date_iso8601\s*\(',
+    '#warning' => array(
+      '#text' => 'date_iso8601() has been removed.',
+      '#link' => _backdropnode(41662),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]system_date_format_locale\s*\(',
+    '#warning' => array(
+      '#text' => 'system_date_format_locale() has been removed.',
+      '#link' => _backdropnode(41663),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(node_info)\s*\(',
+    '#warning' => array(
+      '#text' => 'hook_node_info() has been removed.',
+      '#link' => _backdropnode(41664),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_pass_rehash\s*\(\s*(' . $argex . '\s*,\s*){2}(' . $argex . ')\s*\)',
+    '#warning' => array(
+      '#text' => 'user_pass_rehash() now requires the user account ID as a fourth parameter.',
+      '#link' => _backdropnode(26867),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(library)\s*\(',
+    '#warning' => array(
+      '#text' => 'hook_library() has been renamed to hook_library_info().',
+      '#link' => _backdropnode(41686),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(library_alter)\s*\(',
+    '#warning' => array(
+      '#text' => 'hook_library_alter() has been renamed to hook_library_info_alter().',
+      '#link' => _backdropnode(41686),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]language_list\s*\(\s*' . $argex . '\s*\)',
+    '#warning' => array(
+      '#text' => 'language_list() now accepts a second parameter parameter.',
+      '#link' => _backdropnode(26867),
     ),
   );
 
