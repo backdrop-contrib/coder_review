@@ -774,6 +774,33 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(44866),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'drupal',
+    '#source' => 'all',
+    '#warning' => array(
+      '#text' => '"drupal" replaced by "backdrop".',
+      '#link' => _backdropnode(26857),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'Drupal',
+    '#source' => 'all',
+    '#warning' => array(
+      '#text' => '"Drupal" replaced by "Backdrop".',
+      '#link' => _backdropnode(26857),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'DRUPAL',
+    '#source' => 'all',
+    '#warning' => array(
+      '#text' => '"DRUPAL" replaced by "BACKDROP".',
+      '#link' => _backdropnode(26857),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
