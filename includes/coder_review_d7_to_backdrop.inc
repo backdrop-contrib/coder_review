@@ -740,6 +740,24 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(43511),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'element_validate_integer_positive',
+    '#source' => 'quote',
+    '#warning' => array(
+      '#text' => 'element_validate_integer_positive() has been removed in favor of the number element type.',
+      '#link' => _backdropnode(43955),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'element_validate_integer',
+    '#source' => 'quote',
+    '#warning' => array(
+      '#text' => 'element_validate_integer() has been removed in favor of the number element type.',
+      '#link' => _backdropnode(43955),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
