@@ -676,6 +676,70 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(26867),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(user_categories)\s*\(',
+    '#warning' => array(
+      '#text' => 'The hook_user_categories() has been removed.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]locale_language_selector_form\s*\(\s*&\$form\s*,\s*&\$form_state\s*,\s*\$user\s*\)',
+    '#warning' => array(
+      '#text' => 'locale_language_selector_form() now only takes one parameter: $user.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_module_invoke\s*\(\s*\$type\s*,\s*&\$edit\s*,\s*\$account\s*,\s*\$category',
+    '#warning' => array(
+      '#text' => 'The categories parameter has been removed from user_module_invoke().',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_profile_form\s*\(\s*\$form\s*,\s*&\$form_state\s*,\s*\$account\s*,\s*\$category',
+    '#warning' => array(
+      '#text' => 'The categories parameter has been removed from user_profile_form().',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_element_info\s*\(',
+    '#warning' => array(
+      '#text' => 'user_element_info() has been removed.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]user_category_load\s*\(',
+    '#warning' => array(
+      '#text' => 'user_category_load() has been removed.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(preprocess_user_profile_item)\s*\(',
+    '#warning' => array(
+      '#text' => 'The template_preprocess_user_profile_item() has been removed.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => 'function\s+[a-z0-9_]+_(preprocess_user_profile_category)\s*\(',
+    '#warning' => array(
+      '#text' => 'The template_preprocess_user_profile_category() has been removed.',
+      '#link' => _backdropnode(43511),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
