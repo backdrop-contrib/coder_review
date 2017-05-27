@@ -758,6 +758,22 @@ function coder_review_d7_to_backdrop_reviews() {
       '#link' => _backdropnode(43955),
     ),
   );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]drupal_is_denied\s*\(',
+    '#warning' => array(
+      '#text' => 'drupal_is_denied() has been removed.',
+      '#link' => _backdropnode(44866),
+    ),
+  );
+  $rules[] = array(
+    '#type' => 'regex',
+    '#value' => '[\s\(]taxonomy_term_uri\s*\(',
+    '#warning' => array(
+      '#text' => 'taxonomy_term_uri() has been removed.',
+      '#link' => _backdropnode(44866),
+    ),
+  );
 
   $review = array(
     '#title' => 'Converting 7.x modules to Backdrop',
