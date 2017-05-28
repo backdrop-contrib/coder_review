@@ -16,7 +16,7 @@ function coder_review_admin_settings($form, &$form_state) {
   require_once realpath(dirname(__FILE__)) . '/coder_review.common.inc';
 
   $settings = _coder_review_get_default_settings();
-  dpm($settings);
+
   $form = _coder_review_settings_form($settings, $system, $files);
   $form['help'] = array(
     '#type' => 'markup',
@@ -33,7 +33,8 @@ function coder_review_admin_settings($form, &$form_state) {
     '#value' => t('Save configuration'),
   );
 
-  return $form;}
+  return $form;
+}
 
 /**
  * Form submission handler for coder_review_settings_form().
@@ -53,7 +54,7 @@ function coder_review_settings_form_submit($form, &$form_state) {
  */
 function coder_review_admin_settings_submit($form, &$form_state) {
   form_state_values_clean($form_state);
-  dpm($form_state['values']);
+
   $config = config('coder_review.settings');
   foreach ($form_state['values'] as $key => $value) {
     $config->set($key, $value);
