@@ -84,8 +84,8 @@ function coder_review_reviews() {
  * @see _coder_review_get_default_settings()
  */
 function _coder_review_default_reviews() {
-  // Do not use backdrop_map_assoc() so that this will run without Backdrop being
-  // bootstraped.
+  // Do not use backdrop_map_assoc() so that this will run without Backdrop
+  // being bootstraped.
   return array(
     'style' => 'style',
     'sql' => 'sql',
@@ -200,7 +200,12 @@ function do_coder_reviews(array $coder_args) {
     }
   }
 
-  $results['#stats'] = array('minor' => 0, 'normal' => 0, 'critical' => 0, 'ignored' => 0);
+  $results['#stats'] = array(
+    'minor' => 0,
+    'normal' => 0,
+    'critical' => 0,
+    'ignored' => 0,
+  );
 
   // Skip PHP include files when the user requested severity is above minor.
   if (isset($coder_args['#php_minor']) && _substr($coder_args['#filename'], -4) == '.php') {
@@ -301,10 +306,19 @@ function theme_coder_review_warning($variables) {
   }
   if ($lineno) {
     if ($lineno > 0) {
-      $warning = _t('Line @number: !warning [@review_@rule]', array('@number' => $lineno, '!warning' => $warning, '@review' => $review_name, '@rule' => $rule_name));
+      $warning = _t('Line @number: !warning [@review_@rule]', array(
+        '@number' => $lineno,
+        '!warning' => $warning,
+        '@review' => $review_name,
+        '@rule' => $rule_name,
+      ));
     }
     else {
-      $warning = _t('File: !warning [@review_@rule]', array('!warning' => $warning, '@review' => $review_name, '@rule' => $rule_name));
+      $warning = _t('File: !warning [@review_@rule]', array(
+        '!warning' => $warning,
+        '@review' => $review_name,
+        '@rule' => $rule_name,
+      ));
     }
     if ($line) {
       $warning .= '<pre>' . check_plain($line) . '</pre>';
@@ -451,7 +465,7 @@ function _coder_review_read_and_parse_file(array &$coder_args) {
       // Get the current character.
       $char = $content[$pos];
       // Look ahead to the next character, to cater for \r\n  line ends.
-      $next_char = isset($content[$pos+1]) ? $content[$pos+1] : '';
+      $next_char = isset($content[$pos + 1]) ? $content[$pos + 1] : '';
       if ($char == "\n" || $char . $next_char == "\r\n") {
         // End C++ style comments on newline.
         if ($in_comment === '/' || $in_comment === '#') {
@@ -577,8 +591,10 @@ function _coder_review_read_and_parse_file(array &$coder_args) {
         }
 
         elseif ($in_heredoc) {
-          // @note: backdrop_substr does not properly handle multi-byte characters in this string.
-          // @todo: check other places where the backdrop_ string functions fail.
+          // @note: backdrop_substr does not properly handle multi-byte
+          // characters in this string.
+          // @todo: check other places where the backdrop_ string functions
+          // fail.
           if ($beginning_of_line && $char == $in_heredoc[0] && substr($content, $pos, $in_heredoc_length) == $in_heredoc) {
             $this_all_lines .= _substr($content, $pos + 1, $in_heredoc_length - 1);
             $in_heredoc = 0;
@@ -923,7 +939,14 @@ function _coder_review_severity_name(array $coder_args, array $review, array $ru
  * @see _coder_review_read_and_parse_file()
  */
 function do_coder_review(array $coder_args, array $review) {
-  $results = array('#stats' => array('minor' => 0, 'normal' => 0, 'critical' => 0, 'ignored' => 0));
+  $results = array(
+    '#stats' => array(
+      'minor' => 0,
+      'normal' => 0,
+      'critical' => 0,
+      'ignored' => 0,
+    ),
+  );
   $allowed_extensions = array_merge(
     $coder_args['#php_extensions'],
     $coder_args['#include_extensions'],
@@ -1024,9 +1047,13 @@ function do_coder_review(array $coder_args, array $review) {
  * regular expression string.
  *
  * @param array $coder_args
- *   A Coder settings array, passed by reference. See do_coder_review() for format.
+ *   A Coder settings array, passed by reference. See do_coder_review() for
+ *  format.
+ *
  * @param array $review
- *   Review array the current rule belongs to, used by _coder_review_severity_name().
+ *   Review array the current rule belongs to, used by
+ *   _coder_review_severity_name().
+ *
  * @param array $rule
  *   Rule array being checked.
  * @param array $lines
@@ -1054,7 +1081,7 @@ function do_coder_review_regex(array &$coder_args, array $review, array $rule, a
         if (preg_match($regex, $line, $matches)) {
           // Some rules apply only within certain functions and classes.
           list($class_current, $function_current) = isset($coder_args['#stack'][$lineno]) ? $coder_args['#stack'][$lineno] : array('', '');
-          if (   ($function_regex && (!$function_current || !preg_match($function_regex, $function_current)))
+          if (($function_regex && (!$function_current || !preg_match($function_regex, $function_current)))
               || ($function_not_regex && $function_current && preg_match($function_not_regex, $function_current))
               || ($class_regex && (!$class_current || !preg_match($class_regex, $class_current[0])))
               || ($class_not_regex && $class_current && preg_match($class_not_regex, $class_current[0]))
@@ -1153,13 +1180,19 @@ function _coder_review_ignore(array $rule, $lineno, array $ignores) {
  * This type of do_coder_review_* searches for the occurance of a string.
  *
  * @param array $coder_args
- *   A Coder settings array, passed by reference. See do_coder_review() for format.
+ *   A Coder settings array, passed by reference. See do_coder_review() for
+ *   format.
+ *
  * @param array $review
- *   Review array the current rule belongs to, used by _coder_review_severity_name().
+ *   Review array the current rule belongs to, used by
+ *   _coder_review_severity_name().
+ *
  * @param array $rule
  *   Rule array being checked.
+ *
  * @param array $lines
  *   Pertinent source file lines according to rule's '#source' value.
+ *
  * @param array $results
  *   Results array variable to save errors to, passed by reference.
  *
@@ -1187,13 +1220,19 @@ function do_coder_review_grep(array &$coder_args, array $review, array $rule, ar
  * string.
  *
  * @param array $coder_args
- *   A Coder settings array, passed by reference. See do_coder_review() for format.
+ *   A Coder settings array, passed by reference. See do_coder_review() for
+ *   format.
+ *
  * @param array $review
- *   Review array the current rule belongs to, used by _coder_review_severity_name().
+ *   Review array the current rule belongs to, used by
+ *   _coder_review_severity_name().
+ *
  * @param array $rule
  *   Rule array being checked.
+ *
  * @param array $lines
  *   Pertinent source file lines according to rule's '#source' value.
+ *
  * @param array $results
  *   Results array variable to save errors to, passed by reference.
  *
@@ -1221,13 +1260,19 @@ function do_coder_review_grep_invert(array &$coder_args, array $review, array $r
  * perform a review.
  *
  * @param array $coder_args
- *   A Coder settings array, passed by reference. See do_coder_review() for format.
+ *   A Coder settings array, passed by reference. See do_coder_review() for
+ *   format.
+ *
  * @param array $review
- *   Review array the current rule belongs to, used by _coder_review_severity_name().
+ *   Review array the current rule belongs to, used by
+ *   _coder_review_severity_name().
+ *
  * @param array $rule
  *   Rule array being checked.
+ *
  * @param array $lines
  *   Pertinent source file lines according to rule's '#source' value.
+ *
  * @param array $results
  *   Results array variable to save errors to, passed by reference.
  *
@@ -1238,7 +1283,12 @@ function do_coder_review_callback(array &$coder_args, array $review, array $rule
   $function = $rule['#value'];
   if ($function) {
     if (function_exists($function)) {
-      call_user_func_array($function, array(&$coder_args, $review, $rule, $lines, &$results));
+      call_user_func_array($function, array(
+        &$coder_args,
+        $review, $rule,
+        $lines,
+        &$results,
+      ));
     }
     else {
       static $bad;
@@ -1260,7 +1310,7 @@ function do_coder_review_callback(array &$coder_args, array $review, array $rule
  * @param array $rule
  *   A Rule array to process.
  *
- * @return
+ * @return int
  *   TRUE if needle is in haystack; otherwise, FALSE.
  */
 function _coder_review_search_string($line, $rule) {
@@ -1285,11 +1335,11 @@ function _coder_review_search_string($line, $rule) {
  * The name is a misnomer, but is a largely correct characterization
  * for most of Coder's settings as the variables usually do not exist.
  *
- * @param string $args
+ * @param string $arg
  *   (optional) A string settings argument, can be 'settings', 'active', 'core',
  *   'all' and 'default'. Defaults to 'default'.
  *
- * @return
+ * @return array $settings
  *   Associative array of settings in the form of setting name => setting value.
  */
 function _coder_review_get_default_settings($arg = 'default') {
@@ -1389,7 +1439,8 @@ function _coder_review_is_backdrop_core($system) {
  *   @todo Is this an HTML string? Is it sanitized? Needs better explanation.
  */
 function _coder_review_warning(array $rule) {
-  /* @todo: add version check so we handle tranlations right for older rules definitions.
+  /* @todo: add version check so we handle tranlations right for older rules
+   * definitions.
    * ... or should we just ignore them?
    * This will require passing the review to this function.
    */
