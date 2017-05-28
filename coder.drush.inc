@@ -68,4 +68,3 @@ function drush_coder_format() {
     }
   }
 }
-
