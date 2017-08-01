@@ -108,19 +108,17 @@ function coder_review_form_system_modules_alter(&$form, &$form_state, $form_id) 
   }
 
   $path = backdrop_get_path('module', 'coder_review');
-  $form['#attached']['css'][] = "$path/coder_review.css";
 
   foreach ($form['modules'] as $package_name => &$package) {
     if ($package_name[0] != '#') {
       foreach ($package as $module_name => &$module) {
         if ($module_name[0] != '#') {
-          $module['links']['coder_review'] = array(
-            '#type' => 'link',
-            '#title' => t('Code review'),
-            '#href' => "admin/config/development/coder-review/$module_name",
-            '#options' => array('attributes' => array('class' => array('module-link', 'module-link-coder-review'), 'title' => t('Coder review'))),
+          $module['links']['#type'] = 'dropbutton';
+          $module['links']['#links']['coder_review'] = array(
+            'title' => t('Code review'),
+            'href' => "admin/config/development/coder-review/$module_name",
+            'attributes' => array('class' => array('module-link', 'module-link-coder-review'), 'title' => t('Coder review')),
           );
-          $package['#theme'] = 'coder_review_modules_fieldset';
         }
       }
     }
@@ -931,10 +929,6 @@ function coder_review_theme() {
     ),
     'coder_review_table_cols' => array(
       'render element' => 'form',
-    ),
-    'coder_review_modules_fieldset' => array(
-      'render element' => 'form',
-      'file' => 'coder_review.admin.inc',
     ),
   );
 }

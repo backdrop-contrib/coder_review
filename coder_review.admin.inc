@@ -63,67 +63,6 @@ function coder_review_admin_settings_submit($form, &$form_state) {
 }
 
 /**
- * Returns HTML for the modules form.
- *
- * This was copied from theme_system_modules_fieldset() and modified to handle
- * additional links.
- *
- * @param array $variables
- *   An associative array containing the key:
- *   - form: A render element representing the form.
- *
- * @ingroup themeable
- *
- * @todo Create an issue for this and get this function into D8.
- */
-function theme_coder_review_modules_fieldset($variables) {
-  $form = $variables['form'];
-
-  // Individual table headers.
-  $rows = array();
-  // Iterate through all of the modules to Determine the available operations.
-  $children = element_children($form);
-  $operations = backdrop_map_assoc(array('help', 'permissions', 'configure'));
-  foreach ($children as $key) {
-    $links = array_filter(array_keys($form[$key]['links']), '_coder_review_link_check');
-    if ($links) {
-      $operations += backdrop_map_assoc($links);
-    }
-  }
-  // Iterate through all the modules.
-  foreach ($children as $key) {
-    // Stick it into $module for easier accessing.
-    $module = $form[$key];
-    $row = array();
-    unset($module['enable']['#title']);
-    $row[] = array('class' => array('checkbox'), 'data' => backdrop_render($module['enable']));
-    $label = '<label';
-    if (isset($module['enable']['#id'])) {
-      $label .= ' for="' . $module['enable']['#id'] . '"';
-    }
-    $row[] = $label . '><strong>' . backdrop_render($module['name']) . '</strong></label>';
-    $row[] = backdrop_render($module['version']);
-    // Add the description, along with any modules it requires.
-    $description = backdrop_render($module['description']);
-    if ($module['#requires']) {
-      $description .= '<div class="admin-requirements">' . t('Requires: !module-list', array('!module-list' => implode(', ', $module['#requires']))) . '</div>';
-    }
-    if ($module['#required_by']) {
-      $description .= '<div class="admin-requirements">' . t('Required by: !module-list', array('!module-list' => implode(', ', $module['#required_by']))) . '</div>';
-    }
-    $row[] = array('data' => $description, 'class' => array('description'));
-    // Display links (such as help or permissions) in their own columns.
-    foreach ($operations as $key) {
-      $row[] = array('data' => backdrop_render($module['links'][$key]), 'class' => array($key));
-    }
-    $form['#header'][4]['colspan'] = count($operations);
-    $rows[] = $row;
-  }
-
-  return theme('table', array('header' => $form['#header'], 'rows' => $rows));
-}
-
-/**
  * Custom callback for array_filter.
  */
 function _coder_review_link_check($var) {
