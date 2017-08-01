@@ -5,8 +5,8 @@ This is a developer Module that assists with code review so contributed modules
 can define additional review standards.
 
 Built-in support for:
- - Backdrop Coding Standards - http://backdrop.org/node/318
- - Handle text in a secure fashion - http://backdrop.org/node/28984
+ - Backdrop Coding Standards - https://api.backdropcms.org/php-standards
+ - Handle text in a secure fashion - https://api.backdropcms.org/securing-user-input
 
 Coder Sniffer
 -------------
