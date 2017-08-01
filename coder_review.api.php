@@ -18,7 +18,6 @@
  * - #image:
  * - #description:
  * - #file:
-
  *
  * Each Rule array must have the following keys:
  * - #type: (required) A string that describes the type of coder check. Possible
@@ -49,7 +48,6 @@
  *     - #link: (optional)
  *
  * A Results array is an associative array ...
- *
  */
 
 /**
@@ -64,7 +62,7 @@
  *   provided by the module that implements this hook.
  */
 function hook_reviews() {
-  $review = array(
-  );
+  $review = array();
+
   return $review;
 }
