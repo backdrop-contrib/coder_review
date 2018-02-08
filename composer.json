@@ -2,10 +2,10 @@
     "name": "backdrop/coder",
     "type": "backdrop-module",
     "description": "Coder is a library and a module to review Backdrop code.",
-    "homepage": "https://backdrop.org/project/coder",
+    "homepage": "https://github.com/backdrop-contrib/coder_review",
     "support": {
-        "issues": "https://backdrop.org/project/issues/coder",
-        "source": "https://backdrop.org/project/coder"
+        "issues": "https://github.com/backdrop-contrib/coder_review/issues",
+        "source": "https://github.com/backdrop-contrib/coder_review"
     },
     "keywords": ["phpcs", "standards", "code review"],
     "license": "GPL-2.0+",

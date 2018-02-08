@@ -9,7 +9,8 @@
  * Fake callback.
  *
  * Test module calling block module functions without declaring a dependency.
- * @see http://backdrop.org/node/224333#block_optional
+ *
+ * @see https://www.drupal.org/node/224333#block_optional
  */
 function coder_review_test_page() {
   block_list();

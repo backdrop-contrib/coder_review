@@ -56,7 +56,7 @@ function coder_review_comment_reviews() {
     ),
     '#severity' => 'minor',
   );
-  // @todo: make this handle: see http://backdrop.org/node/224333#block_optional
+  // @todo: make this handle https://www.drupal.org/node/224333#block_optional.
   $rules['comment_see'] = array(
     '#type' => 'regex',
     '#source' => 'comment',

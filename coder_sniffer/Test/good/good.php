@@ -252,7 +252,7 @@ do {
  *
  * @see example_reference()
  * @see Example::exampleMethod()
- * @see http://backdrop.org
+ * @see https://backdropcms.org
  * @see http://example.com/see/documentation/is/allowed/to/exceed/eighty/characters
  */
 function foo_bar($field1, $field2, $field3 = NULL, &$field4 = NULL) {
@@ -574,7 +574,7 @@ watchdog('mymodule', 'Log message here.');
 // "=" oeprator.
 $batch =& batch_get();
 
-// Security issue: http://backdrop.org/node/750148
+// Security issue: httpa://www.drupal.org/node/750148
 preg_match('/.+/i', 'subject');
 preg_match('/.+/imsuxADSUXJ', 'subject');
 preg_filter('/.+/i', 'replacement', 'subject');
