@@ -68,7 +68,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     // N/A - https://www.drupal.org/node/224333#archive-tar
     // N/A - https://www.drupal.org/node/224333#user-1
     // N/A - https://www.drupal.org/node/224333#hook_module_implements_alter
-    // N/A - https://www.drupal.org/node/224333#backdrop_static_advanced
+    // N/A - https://www.drupal.org/node/224333#drupal_static_advanced
     // N/A - https://www.drupal.org/node/224333#hook_update_index
 
     // https://www.drupal.org/node/224333#module_implements_not_module_list
@@ -90,14 +90,14 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail('  $time = foo(time());');
     $this->assertCoderReviewPass('  $time = foo_time();');
 
-    // https://www.drupal.org/node/224333#rebuild-functions
+    // https://www.drupal.org/node/224333#rebuild_functions
     $this->assertCoderReviewFail('  backdrop_rebuild_code_registry();');
 
-    // https://www.drupal.org/node/224333#backdrop_uninstall_modules
+    // https://www.drupal.org/node/224333#drupal_uninstall_modules
     $this->assertCoderReviewFail('  backdrop_uninstall_module("foo");');
     $this->assertCoderReviewPass('  backdrop_uninstall_modules(array("foo"));');
 
-    // https://www.drupal.org/node/224333#backdrop_http_request_parameters
+    // https://www.drupal.org/node/224333#drupal_http_request_parameters
     $this->assertCoderReviewPass('  backdrop_http_request($url, $options);');
     $this->assertCoderReviewPass('  backdrop_http_request($url, array());');
     $this->assertCoderReviewFail('  backdrop_http_request($url, $headers, $method, $data, $retry);');
@@ -114,18 +114,18 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail("  \$path = 'admin/reports/settings';");
     $this->assertCoderReviewFail('  $path = "URL is admin/reports/settings.";');
 
-    // https://www.drupal.org/node/224333#system_get_module_data
+    // https://www.drupal.org/node/224333#system_rebuild_module_data
     $this->assertCoderReviewFail('  module_rebuild_cache();');
     $this->assertCoderReviewFail('  system_theme_data();');
 
-    // https://www.drupal.org/node/224333#backdrop_set_html_head
+    // https://www.drupal.org/node/224333#drupal_set_html_head
     $this->assertCoderReviewFail('  backdrop_set_html_head($data);');
 
     // https://www.drupal.org/node/224333#php_eval
     $this->assertCoderReviewFail('  backdrop_eval(\'<?php print "Hello"; ?>\');');
 
     // https://www.drupal.org/node/224333#http_header_functions
-    // https://www.drupal.org/node/224333#backdrop_set_header_renamed
+    // https://www.drupal.org/node/224333#drupal_set_header_renamed
     $this->assertCoderReviewPass("  backdrop_add_http_header('Content-Type', 'text/plain');");
     $this->assertCoderReviewFail("  backdrop_set_header('Content-Type: text/plain');");
     $this->assertCoderReviewPass("  backdrop_add_http_header('Status', '500 Internal server error');");
@@ -133,7 +133,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewPass("  backdrop_get_http_header();");
     $this->assertCoderReviewFail("  backdrop_get_headers();");
 
-    // https://www.drupal.org/node/224333#backdrop_set_content
+    // https://www.drupal.org/node/224333#drupal_set_content
     $this->assertCoderReviewFail("  backdrop_set_content('footer', 'Adding custom text to the footer');");
     $this->assertCoderReviewFail('  $content = backdrop_get_content();');
 
@@ -151,11 +151,11 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewPass("  function mymodule_search_info() {\n  ");
 
 
-    // https://www.drupal.org/node/224333#backdrop_alter
+    // https://www.drupal.org/node/224333#drupal_alter
     // https://www.drupal.org/node/224333#new_hook_hook_info
     // https://www.drupal.org/node/224333#email-html
 
-    // https://www.drupal.org/node/224333#remove-backdrop-urlencode
+    // https://www.drupal.org/node/224333#remove-drupal-urlencode
     $this->assertCoderReviewFail('  backdrop_urlencode($url);');
     $this->assertCoderReviewPass('  backdrop_encode_path($url);');
 
@@ -324,7 +324,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewPass('  check_markup($body, $format, $langcode, FALSE);');
     $this->assertCoderReviewPass('  check_markup($body, $format);');
 
-    // https://www.drupal.org/node/224333#backdrop_set_title
+    // https://www.drupal.org/node/224333#drupal_set_title
     $this->assertCoderReviewFail('  backdrop_set_title(check_plain($text));');
     $this->assertCoderReviewPass('  backdrop_set_title($text);');
     $this->assertCoderReviewFail('  backdrop_set_title(t("%test"));');
@@ -355,7 +355,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
 
     // https://www.drupal.org/node/224333#default-text-formats
     // https://www.drupal.org/node/224333#text-format-permissions
-    // https://www.drupal.org/node/224333#filter-formats-parameters
+    // https://www.drupal.org/node/224333#filter_formats_parameters
   }
 
   /**
@@ -407,7 +407,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     // https://www.drupal.org/node/224333#related_terms
     $this->assertCoderReviewFail('  $related = taxonomy_get_related($tid);');
 
-    // https://www.drupal.org/node/224333#taxonomy-node
+    // https://www.drupal.org/node/224333#taxonomy_node
   }
 
   /**
@@ -416,18 +416,18 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
   function testJavascript7x() {
     // N/A - https://www.drupal.org/node/224333#jquery_ui
     // N/A - https://www.drupal.org/node/224333#attached_js
-    // N/A - https://www.drupal.org/node/224333#backdrop_add_library
-    // N/A - https://www.drupal.org/node/224333#backdrop_add_js_css_reset
+    // N/A - https://www.drupal.org/node/224333#drupal_add_library
+    // N/A - https://www.drupal.org/node/224333#drupal_add_js_css_reset
     // N/A - https://www.drupal.org/node/224333#local_settings_behaviors
 
     // NO TESTS - https://www.drupal.org/node/224333#jquery_13
-    // NO TESTS - https://www.drupal.org/node/224333#backdrop_behaviors
+    // NO TESTS - https://www.drupal.org/node/224333#drupal_behaviors
     // NO TESTS - https://www.drupal.org/node/224333#javascript_compatibility
     // NO TESTS - https://www.drupal.org/node/224333#no-jsenabled
 
-    // https://www.drupal.org/node/224333#backdrop_add_js_weight
+    // https://www.drupal.org/node/224333#drupal_add_js_weight
     $this->assertCoderReviewFail("  backdrop_add_js(\$data, 'module');");
-    // https://www.drupal.org/node/224333#backdrop_add_js_options
+    // https://www.drupal.org/node/224333#drupal_add_js_options
     $this->assertCoderReviewPass("  backdrop_add_js(\$data, 'file');");
     $this->assertCoderReviewFail("  backdrop_add_js(\$data, 'file', 'header');");
     $this->assertCoderReviewFail("  backdrop_add_js(\$data, 'file', \$header, \$defer);");
@@ -437,7 +437,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewPass("  function mytheme_preprocess_page(&\$variables) {\n  \$scripts = \$variables['myscripts'];\n}");
     $this->assertCoderReviewFail("  function mytheme_preprocess_page(&\$variables) {\n  \$scripts = \$variables['scripts'];\n}");
 
-    // https://www.drupal.org/node/224333#backdrop_add_js_external
+    // https://www.drupal.org/node/224333#drupal_add_js_external
     $this->assertCoderReviewPass('  backdrop_add_html_head("foo");');
     $this->assertCoderReviewFail('  backdrop_add_html_head(\'<script type="text/javascript" src="foo.js"/>\');');
     $this->assertCoderReviewFail('  backdrop_add_html_head(\'<script src="foo.js">\');');
@@ -446,7 +446,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail('  backdrop_add_html_head(\'<script src="http://example123-ab_c.com.js">\');');
 
     // https://www.drupal.org/node/224333#jquery_once
-    // https://www.drupal.org/node/224333#rename-backdrop-to-js
+    // https://www.drupal.org/node/224333#rename-drupal-to-js
   }
 
   /**
@@ -454,17 +454,17 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
    */
   function testCss7x() {
     // N/A - https://www.drupal.org/node/224333#attached_js
-    // N/A - https://www.drupal.org/node/224333#backdrop_add_css_inline
-    // N/A - https://www.drupal.org/node/224333#backdrop_add_library
-    // N/A - https://www.drupal.org/node/224333#backdrop_add_js_css_reset
+    // N/A - https://www.drupal.org/node/224333#drupal_add_css_inline
+    // N/A - https://www.drupal.org/node/224333#drupal_add_library
+    // N/A - https://www.drupal.org/node/224333#drupal_add_js_css_reset
     // N/A - https://www.drupal.org/node/224333#add-css-external
 
-    // https://www.drupal.org/node/224333#backdrop_add_js_options
+    // https://www.drupal.org/node/224333#drupal_add_js_options
     $this->assertCoderReviewPass("  backdrop_add_css(\$data, 'module');");
     $this->assertCoderReviewFail("  backdrop_add_css(\$data, 'module', 'all');");
     $this->assertCoderReviewFail("  backdrop_add_css(\$data, 'module', \$media);");
 
-    // https://www.drupal.org/node/224333#backdrop_add_css_weight
+    // https://www.drupal.org/node/224333#drupal_add_css_weight
     // https://www.drupal.org/node/224333#class_attribute_array
   }
 
@@ -487,7 +487,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail("  return theme('closure');");
 
     // https://www.drupal.org/node/224333#element_theme_properties
-    // https://www.drupal.org/node/224333#backdrop_render_children
+    // https://www.drupal.org/node/224333#drupal_render_children
     // https://www.drupal.org/node/224333#theme-links-param
     // https://www.drupal.org/node/224333#theme_changes
   }
@@ -517,13 +517,13 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
 
     // https://www.drupal.org/node/224333#markup
 
-    // https://www.drupal.org/node/224333#backdrop_execute_backdrop_form_submit
+    // https://www.drupal.org/node/224333#drupal_execute_drupal_form_submit
     $this->assertCoderReviewFail('  backdrop_execute();');
     $this->assertCoderReviewFail('  if (backdrop_execute())');
 
     // https://www.drupal.org/node/224333#unrendered
 
-    // https://www.drupal.org/node/224333#ahah_now_ajax
+    // https://www.drupal.org/node/224333#ahah-now-ajax
     $this->assertCoderReviewFail('  $form["#ahah"] = "foo";');
     $this->assertCoderReviewFail("  \$form['#ahah'] = 'foo';");
   }
@@ -540,7 +540,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     // UNCLEAR - https://www.drupal.org/node/224333#unmanaged_files
     // UNCLEAR - https://www.drupal.org/node/224333#user_picture
 
-    // https://www.drupal.org/node/224333#file_scan_directory_array-itize
+    // https://www.drupal.org/node/224333#file_scan_directory_array_itize
     $this->assertCoderReviewPass('  file_scan_directory($dir, $mask);');
     $this->assertCoderReviewPass('  file_scan_directory($dir, $mask, $options, $depth);');
     $this->assertCoderReviewFail('  file_scan_directory($dir, $mask, $options, $callback, $recurse, $key, $min_depth, $depth);');
@@ -581,7 +581,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
 
     $this->assertCoderReviewFail("  function mymodule_comment(&\$ai, \$op)");
 
-    // https://www.drupal.org/node/224333#logout_path
+    // https://www.drupal.org/node/719612
     $this->assertCoderReviewFail('  backdrop_goto(\'logout\');');
     $this->assertCoderReviewPass("  backdrop_goto('user/logout');");
     $this->assertCoderReviewFail('  $form_state[\'redirect\'] = \'logout\';');
@@ -655,7 +655,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail('  node_get_types($op);');
     $this->assertCoderReviewFail('  node_get_types(\'types\');');
 
-    // https://www.drupal.org/node/224333#build_mode
+    // https://www.drupal.org/node/224333#view_mode
     $this->assertCoderReviewFail('  $build_mode = NODE_BUILD_PREVIEW;');
     $this->assertCoderReviewFail('  $node->build_mode = 2;');
 
@@ -703,7 +703,7 @@ class CoderReviewUpgrade7xTest extends CoderReviewTestCase {
     $this->assertCoderReviewFail('  if (referer_uri())');
     $this->assertCoderReviewPass('  $referer = foo_referer_uri();');
 
-    // https://www.drupal.org/node/224333#backdrop_clone
+    // https://www.drupal.org/node/224333#drupal_clone
     $this->assertCoderReviewFail('  $clone = backdrop_clone($node);');
     $this->assertCoderReviewFail('  if (backdrop_clone($node))');
     $this->assertCoderReviewPass('  $clone = clone $node;');
