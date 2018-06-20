@@ -1428,7 +1428,7 @@ function _coder_review_7x_comment_doxygen_file_callback(&$coder_args, $review, $
 /**
  * Make sure user defined block module as a dependency if using block functions.
  *
- * @see http://backdrop.org/node/224333#block_optional
+ * @see https://www.drupal.org/node/224333#block_optional
  */
 function _coder_review_7x_optional_block_callback(&$coder_args, $review, $rule, $lines, &$results) {
   $functions_to_check = array('block_list', 'block_custom_block_get', 'block_page_build');
@@ -1478,11 +1478,11 @@ function _coder_review_7x_optional_block_callback(&$coder_args, $review, $rule, 
  */
 
 /**
- * Return the warning text for http://backdrop.org/node/224333#backdrop_behaviors.
+ * Returns the warning text for https://www.drupal.org/node/224333#drupal_behaviors.
  *
- * This is in it's own function because the text is needed in both the rules definition,
- * and in a callback function, so rather than define the warning twice, just define it
- * once here.
+ * This is in its own function because the text is needed in both the rules
+ * definition and in a callback function, so rather than define the warning
+ * twice, just define it once here.
  */
 function _coder_review_7x_backdrop_behaviors_warning() {
   return array(

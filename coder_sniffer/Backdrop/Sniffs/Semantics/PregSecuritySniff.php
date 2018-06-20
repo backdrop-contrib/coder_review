@@ -11,7 +11,7 @@
 
 /**
  * Check the usage of the preg functions to ensure the insecure /e flag isn't
- * used: http://backdrop.org/node/750148
+ * used: https://www.drupal.org/node/750148
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -86,7 +86,7 @@ class Backdrop_Sniffs_Semantics_PregSecuritySniff extends Backdrop_Sniffs_Semant
             $delimiter = preg_quote(substr($pattern, 1, 1), '/');
             // Check if there is the evil e flag.
             if (preg_match('/' . $delimiter . '[\w]{0,}e[\w]{0,}$/', substr($pattern, 0, -1))) {
-                $warn = 'Using the e flag in %s is a possible security risk. For details see http://backdrop.org/node/750148';
+                $warn = 'Using the e flag in %s is a possible security risk. For details see https://www.drupal.org/node/750148';
                 $phpcsFile->addError(
                     $warn,
                     $argument['start'],

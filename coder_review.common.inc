@@ -1537,7 +1537,7 @@ function _drush() {
 }
 
 /**
- * Creates a link to the Backdrop node.
+ * Creates a link to the Backdrop CMS node.
  *
  * @param int $nid
  *   The Backdrop Node ID to link to.
@@ -1545,11 +1545,11 @@ function _drush() {
  *   (optional) An anchor tag. Defaults to an empty string.
  *
  * @return string
- *   An HTML link to the backdrop.org node.
+ *   An HTML link to the backdropcms.org node.
  *   Except when called from Drush, then it is a plain text link.
  */
 function _backdropnode($nid, $anchor = '') {
-  $link = "http://backdrop.org/node/$nid";
+  $link = "https://backdropcms.org/node/$nid";
   if ($anchor) {
     $link .= "#$anchor";
   }
@@ -1569,7 +1569,7 @@ function _backdropnode($nid, $anchor = '') {
  *   Except when called from Drush, then it is a plain text link.
  */
 function _backdropapi($function, $version = '') {
-  return _l($function, "http://api.backdrop.org/api/function/$function/$version");
+  return _l($function, "https://api.backdropcms.org/api/function/$function/$version");
 }
 
 /**

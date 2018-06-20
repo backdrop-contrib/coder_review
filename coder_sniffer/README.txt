@@ -5,7 +5,7 @@
 Backdrop Code Sniffer is a coding standard validation tool for Backdrop and contributed
 modules/themes.
 
-Online documentation: https://backdrop.org/node/1419980
+Online documentation: https://www.drupal.org/node/1419980
 
 
 Installation: PEAR
@@ -24,7 +24,7 @@ $> sudo ln -sv /path/to/coder/coder_sniffer/Backdrop $(pear config-get php_dir)/
 
 Please see the online documentation for more detailed instructions:
 
-  https://backdrop.org/node/1419988
+  https://www.drupal.org/node/1419988
 
 
 Installation: Drush
@@ -37,7 +37,7 @@ and leveraging of drush features such as site aliasing.
 Extract the contents of the Coder project into one of the locations specified
 in the drush README.txt COMMANDS section, such as the subdirectory of the
 .drush folder in your home directory.  For other alternatives, please see
-http://backdrop.org/node/1419988
+https://www.drupal.org/node/1419988
 
 
 Installation: Composer
@@ -71,18 +71,19 @@ Backdrop Code Sniffer can be used with various editors.
 
 Editors:
 
-eclipse: http://backdrop.org/node/1420004
-Komodo: http://backdrop.org/node/1419996
-Netbeans: http://backdrop.org/node/1420008
-Sublime Text: http://backdrop.org/node/1419996
-vim: http://backdrop.org/node/1419996
+eclipse: https://www.drupal.org/node/1420004
+Komodo: https://www.drupal.org/node/1419996
+Netbeans: https://www.drupal.org/node/1420008
+Sublime Text: https://www.drupal.org/node/1419996
+vim: https://www.drupal.org/node/1419996
 
 
 Attention
 ---------
 This is still a draft!!
-Please cross check with http://backdrop.org/coding-standards and
-http://backdrop.org/project/coder if the validation is correct
+Please cross check with https://api.backdropcms.org/coding-standards and
+https://github.com/backdrop-contrib/coder_review if the validation is correct.
 
 Known Issues:
-Documentation Tags just rarly supported - there are many missing / disabled sniffs
+Documentation Tags just rarely supported - there are many missing / disabled
+sniffs.

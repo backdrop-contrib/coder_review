@@ -11,7 +11,7 @@ and a little bit of necessary setup. Here's what you'll need:
 -- REQUIREMENTS --
 
 * SimpleTest module, along with the patch in
-  http://backdrop.org/node/211823
+  https://www.drupal.org/node/211823
 
 * SimpleTest Framework
   https://sourceforge.net/project/showfiles.php?group_id=76550
@@ -26,7 +26,7 @@ and a little bit of necessary setup. Here's what you'll need:
   usual.
 
 * Apply above mentioned patch to SimpleTest module. See
-  http://backdrop.org/patch/apply for further information.
+  https://www.drupal.org/patch/apply for further information.
 
   FYI: This patch fixes some incompatibilities with our heavy OOP testing
   framework for coder_format. It should not break other tests.

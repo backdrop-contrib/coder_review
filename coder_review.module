@@ -9,16 +9,11 @@
  * additional review standards.
  *
  * Built-in support for:
- * - Backdrop Coding Standards - http://backdrop.org/node/318
- * - Handle text in a secure fashion - http://backdrop.org/node/28984
- * - Converting 4.6.x modules to 4.7.x - http://backdrop.org/node/22218
- * - Converting 4.7.x modules to 5.x - http://backdrop.org/node/64279
- * - Converting 5.x modules to 6.x - http://backdrop.org/node/114774
- * - Comment Standards - http://backdrop.org/node/1354
- * - SQL coding conventions - http://backdrop.org/node/2497
+ * - Backdrop Coding Standards - https://api.backdropcms.org/coding-standards
+ * - Handle text in a secure fashion - https://www.drupal.org/node/28984
  *
- * Credit also to dries:
- * - http://cvs.backdrop.org/viewcvs/backdrop/backdrop/scripts/code-style.pl
+ * Credit also to Dries:
+ * - https://cgit.drupalcode.org/drupal/tree/scripts/code-style.pl?h=6.x
  */
 
 /**
@@ -34,7 +29,7 @@ function coder_review_flush_caches() {
 function coder_review_help($page, $arg) {
   switch ($page) {
     case 'coder_review#disclaimer':
-      return _t('Coder provides helpful hints trying to minimize false positives, but offers no guarantees. You are the final arbitrar. If in doubt, please read the Backdrop documentation (see review links below and <a href="@api">api.backdrop.org</a>).', array('@api' => 'http://api.backdrop.org'));
+      return _t('Coder provides helpful hints trying to minimize false positives, but offers no guarantees. You are the final arbitrar. If in doubt, please read the Backdrop documentation (see review links below and <a href="@api">api.backdropcms.org</a>).', array('@api' => 'https://api.backdropcms.org'));
   }
 }
 

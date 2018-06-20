@@ -1,8 +1,8 @@
 
 -- SUMMARY --
 
-This is a standalone script developed by sun (http://backdrop.org/user/54136) that
-only concentrates on re-formatting code and style review.
+This is a standalone script developed by sun (https://www.drupal.org/user/54136)
+that only concentrates on re-formatting code and style review.
 
 Coder Format alters source code files directly. Although this script is
 state-of-the-art, be sure to backup your source files in front of executing this
@@ -14,7 +14,7 @@ modules with different approaches is in some ways an advantage, since each
 becomes - in effect - a unit test upon the other. This is a great way for them
 to both improve, and maintain accuracy in what is a very detail oriented area!
 
-See http://backdrop.org/node/126938.
+See https://www.drupal.org/node/126938.
 
 
 -- REQUIREMENTS --
