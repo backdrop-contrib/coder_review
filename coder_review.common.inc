@@ -300,7 +300,7 @@ function theme_coder_review_warning($variables) {
       $warning_msg = _t($warning['#text'], $warning['#args']);
     }
     if (isset($warning['#link'])) {
-      $warning_msg .= ' (' . l(_t('Backdrop Docs'), $warning['#link']) . ')';
+      $warning_msg .= ' (' . l(_t('Drupal Docs'), $warning['#link']) . ')';
     }
     $warning = $warning_msg;
   }
@@ -1549,7 +1549,7 @@ function _drush() {
  *   Except when called from Drush, then it is a plain text link.
  */
 function _backdropnode($nid, $anchor = '') {
-  $link = "https://backdropcms.org/node/$nid";
+  $link = "https://drupal.org/node/$nid";
   if ($anchor) {
     $link .= "#$anchor";
   }
