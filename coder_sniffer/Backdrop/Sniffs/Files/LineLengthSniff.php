@@ -17,7 +17,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Files_LineLengthSniff extends Generic_Sniffs_Files_LineLengthSniff
+
+namespace Backdrop\Sniffs\Files;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff as PHP_CodeSniffer_LineLengthSniff;
+
+class LineLengthSniff extends PHP_CodeSniffer_LineLengthSniff
 {
 
     /**
@@ -37,34 +43,42 @@ class Backdrop_Sniffs_Files_LineLengthSniff extends Generic_Sniffs_Files_LineLen
      */
     public $absoluteLineLimit = 0;
 
-
-    /**
-     * Checks if a line is too long.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile   The file being scanned.
-     * @param int                  $stackPtr    The token at the end of the line.
-     * @param string               $lineContent The content of the line.
-     *
-     * @return void
-     */
-    protected function checkLineLength(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $lineContent)
-    {
-        $tokens = $phpcsFile->getTokens();
-        if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT || $tokens[$stackPtr]['code'] === T_COMMENT) {
-            if (preg_match('/^[[:space:]]*(\/\*)?\*[[:space:]]*@link.*@endlink[[:space:]]*/', $lineContent) === 1) {
-                // Allow @link documentation to exceed the 80 character limit.
-                return;
-            }
-
-            if (preg_match('/^[[:space:]]*((\/\*)?\*|\/\/)[[:space:]]*@see.*/', $lineContent) === 1) {
-                // Allow @see documentation to exceed the 80 character limit.
-                return;
-            }
-
-            parent::checkLineLength($phpcsFile, $stackPtr, $lineContent);
-        }
-
-    }//end checkLineLength()
+//
+//    /**
+//     * Checks if a line is too long.
+//     *
+//     * @param PHP_CodeSniffer_File $phpcsFile   The file being scanned.
+//     * @param int                  $stackPtr    The token at the end of the line.
+//     * @param string               $lineContent The content of the line.
+//     *
+//     * @return void
+//     */
+//    protected function checkLineLength($phpcsFile, $tokens, $stackPtr)
+//    {
+////        $backtrace = debug_backtrace();
+////        foreach ($backtrace as $key => $value) {
+////          print_r($value['file'] . "\n");
+////          print_r($value['line'] . "\n");
+////          print_r($value['function'] . "\n");
+////          print_r("\n");
+////        }
+//
+//
+//        if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT || $tokens[$stackPtr]['code'] === T_COMMENT) {
+//            if (preg_match('/^[[:space:]]*(\/\*)?\*[[:space:]]*@link.*@endlink[[:space:]]*/', $lineContent) === 1) {
+//                // Allow @link documentation to exceed the 80 character limit.
+//                return;
+//            }
+//
+//            if (preg_match('/^[[:space:]]*((\/\*)?\*|\/\/)[[:space:]]*@see.*/', $lineContent) === 1) {
+//                // Allow @see documentation to exceed the 80 character limit.
+//                return;
+//            }
+//
+//            parent::checkLineLength($phpcsFile, $tokens, $stackPtr);
+//        }
+//
+//    }//end checkLineLength()
 
 
     /**
@@ -72,7 +86,7 @@ class Backdrop_Sniffs_Files_LineLengthSniff extends Generic_Sniffs_Files_LineLen
      *
      * @return integer
      */
-    public function getLineLength(PHP_CodeSniffer_File $phpcsFile, $currentLine)
+    public function getLineLength(File $phpcsFile, $currentLine)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -92,5 +106,3 @@ class Backdrop_Sniffs_Files_LineLengthSniff extends Generic_Sniffs_Files_LineLen
 
 
 }//end class
-
-?>

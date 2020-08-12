@@ -13,10 +13,6 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
-if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractPatternSniff not found');
-}
-
 /**
  * Verifies that control statements conform to their coding standards.
  *
@@ -29,7 +25,12 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
+
+namespace Backdrop\Sniffs\ControlStructures;
+
+use PHP_CodeSniffer\Sniffs\AbstractPatternSniff;
+
+class ControlSignatureSniff extends AbstractPatternSniff
 {
 
 

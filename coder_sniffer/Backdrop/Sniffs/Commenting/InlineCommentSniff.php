@@ -29,7 +29,14 @@
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class Backdrop_Sniffs_Commenting_InlineCommentSniff implements Sniff
 {
 
 
@@ -57,7 +64,7 @@ class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -66,7 +73,7 @@ class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
         // not allowed.
         if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT) {
             $nextToken = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($stackPtr + 1),
                 null,
                 true
@@ -95,7 +102,7 @@ class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
                 return;
             } else {
                 $prevToken = $phpcsFile->findPrevious(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    Tokens::$emptyTokens,
                     ($stackPtr - 1),
                     null,
                     true
@@ -217,14 +224,14 @@ class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
     /**
      * Determines if a comment line is part of an @code/@endcode example.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return boolean Returns true if the comment line is within a @code block,
      *                 false otherwise.
      */
-    protected function isInCodeExample(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isInCodeExample(File $phpcsFile, $stackPtr)
     {
         $tokens      = $phpcsFile->getTokens();
         $prevComment = $stackPtr;
@@ -253,13 +260,13 @@ class Backdrop_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
     /**
      * Checks the indentation level of the comment contents.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function processIndentation(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processIndentation(File $phpcsFile, $stackPtr)
     {
         $tokens     = $phpcsFile->getTokens();
         $comment    = rtrim($tokens[$stackPtr]['content']);

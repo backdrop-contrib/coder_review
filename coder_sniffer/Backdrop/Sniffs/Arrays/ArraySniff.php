@@ -20,7 +20,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Arrays;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ArraySniff implements Sniff
 {
 
 
@@ -45,11 +52,11 @@ class Backdrop_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens   = $phpcsFile->getTokens();
         $lastItem = $phpcsFile->findPrevious(
-            PHP_CodeSniffer_Tokens::$emptyTokens,
+            Tokens::$emptyTokens,
             ($tokens[$stackPtr]['parenthesis_closer'] - 1),
             $stackPtr,
             true
@@ -67,12 +74,13 @@ class Backdrop_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
         if ($tokens[$lastItem]['code'] !== T_COMMA && $isInlineArray === false
             && $tokens[($lastItem + 1)]['code'] !== T_CLOSE_PARENTHESIS
         ) {
-            $phpcsFile->addWarning('A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'], $lastItem);
+
+            $phpcsFile->addWarning('A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'], $lastItem, 'MissingComma');
             return;
         }
 
         if ($tokens[$lastItem]['code'] === T_COMMA && $isInlineArray === true) {
-            $phpcsFile->addWarning('Last item of an inline array must not be followed by a comma', $lastItem);
+            $phpcsFile->addWarning('Last item of an inline array must not be followed by a comma', $lastItem, 'ExtraComma');
         }
 
         if ($isInlineArray === true) {
@@ -84,7 +92,7 @@ class Backdrop_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
                     $comma2 = $phpcsFile->findNext(T_COMMA, ($comma1 + 1), $tokens[$stackPtr]['parenthesis_closer']);
                     if ($comma2 !== false) {
                         $error = 'If the line declaring an array spans longer than 80 characters, each element should be broken into its own line';
-                        $phpcsFile->addError($error, $stackPtr, 'LongLineDeclaration');
+                        $phpcsFile->addError($error, $stackPtr, 'LongLineDeclaration', 'ArrayTooLong');
                     }
                 }
             }
@@ -132,7 +140,7 @@ class Backdrop_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             $newLineStart = $lineStart;
             while ($tokens[$newLineStart]['line'] == $tokens[$lineStart]['line']) {
                 $newLineStart = $phpcsFile->findNext(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    Tokens::$emptyTokens,
                     ($newLineStart + 1),
                     ($tokens[$stackPtr]['parenthesis_closer'] + 1),
                     true

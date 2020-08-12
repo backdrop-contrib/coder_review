@@ -16,7 +16,12 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Functions_DiscouragedFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+
+namespace Backdrop\Sniffs\Functions;
+
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
+
+class DiscouragedFunctionsSniff extends ForbiddenFunctionsSniff
 {
 
     /**
@@ -27,7 +32,7 @@ class Backdrop_Sniffs_Functions_DiscouragedFunctionsSniff extends Generic_Sniffs
      *
      * @var array(string => string|null)
      */
-    protected $forbiddenFunctions = array(
+    public $forbiddenFunctions = array(
                                      // Devel module debugging functions.
                                      'dargs'               => null,
                                      'dcp'                 => null,
@@ -56,5 +61,3 @@ class Backdrop_Sniffs_Functions_DiscouragedFunctionsSniff extends Generic_Sniffs
     public $error = false;
 
 }//end class
-
-?>

@@ -17,7 +17,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_InfoFiles_RequiredSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\InfoFiles;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class RequiredSniff implements Sniff
 {
 
 
@@ -42,7 +48,7 @@ class Backdrop_Sniffs_InfoFiles_RequiredSniff implements PHP_CodeSniffer_Sniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -4));
         if ($fileExtension !== 'info') {
@@ -82,5 +88,3 @@ class Backdrop_Sniffs_InfoFiles_RequiredSniff implements PHP_CodeSniffer_Sniff
 
 
 }//end class
-
-?>

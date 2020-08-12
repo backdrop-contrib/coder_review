@@ -27,7 +27,13 @@
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Classes;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class ClassDeclarationSniff implements Sniff
 {
 
 
@@ -55,7 +61,7 @@ class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -63,7 +69,7 @@ class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_S
             $error  = 'Possible parse error: ';
             $error .= $tokens[$stackPtr]['content'];
             $error .= ' missing opening or closing brace';
-            $phpcsFile->addWarning($error, $stackPtr);
+            $phpcsFile->addWarning($error, $stackPtr, 'MissingBrace');
             return;
         }
 
@@ -75,7 +81,7 @@ class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_S
             $error  = 'Opening brace of a ';
             $error .= $tokens[$stackPtr]['content'];
             $error .= ' must be on the same line as the definition';
-            $phpcsFile->addError($error, $curlyBrace);
+            $phpcsFile->addError($error, $curlyBrace, 'OpeningBrace');
             return;
         } /* else if ($braceLine > ($classLine + 1)) {
             $difference  = ($braceLine - $classLine - 1);
@@ -92,7 +98,7 @@ class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_S
         if ($tokens[($curlyBrace + 1)]['content'] !== $phpcsFile->eolChar && $tokens[($curlyBrace + 1)]['code'] !== T_CLOSE_CURLY_BRACKET) {
             $type  = strtolower($tokens[$stackPtr]['content']);
             $error = "Opening $type brace must be on a line by itself";
-            $phpcsFile->addError($error, $curlyBrace);
+            $phpcsFile->addError($error, $curlyBrace, 'OpeningBrace');
         }
 
         if ($tokens[($curlyBrace - 1)]['code'] != T_WHITESPACE) {
@@ -102,7 +108,7 @@ class Backdrop_Sniffs_Classes_ClassDeclarationSniff implements PHP_CodeSniffer_S
                 $spaces     = strlen($blankSpace);
                 if ($spaces !== 0) {
                     $error = "Expected 1 space before opening brace; $spaces found";
-                    $phpcsFile->addError($error, $curlyBrace);
+                    $phpcsFile->addError($error, $curlyBrace, 'OpeningBrace');
                 }
             }
         }

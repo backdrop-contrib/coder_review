@@ -19,8 +19,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Commenting_DocCommentAlignmentSniff implements
-PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class Backdrop_Sniffs_Commenting_DocCommentAlignmentSniff implements Sniff
 {
 
 
@@ -45,12 +51,12 @@ PHP_CodeSniffer_Sniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
         // We are only interested in function/class/interface doc block comments.
-        $nextToken = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr + 1), null, true);
+        $nextToken = $phpcsFile->findNext(Tokens::$emptyTokens, ($stackPtr + 1), null, true);
         $ignore    = array(
                       T_CLASS,
                       T_INTERFACE,
@@ -64,7 +70,7 @@ PHP_CodeSniffer_Sniff
 
         if (in_array($tokens[$nextToken]['code'], $ignore) === false) {
             // Could be a file comment.
-            $prevToken = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr - 1), null, true);
+            $prevToken = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($stackPtr - 1), null, true);
             if ($tokens[$prevToken]['code'] !== T_OPEN_TAG) {
                 return;
             }

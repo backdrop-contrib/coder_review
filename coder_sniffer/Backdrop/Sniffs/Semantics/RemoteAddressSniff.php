@@ -17,7 +17,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_RemoteAddressSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class RemoteAddressSniff implements Sniff
 {
 
 
@@ -42,7 +48,7 @@ class Backdrop_Sniffs_Semantics_RemoteAddressSniff implements PHP_CodeSniffer_Sn
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $string = $phpcsFile->getTokensAsString($stackPtr, 4);
         if ($string === '$_SERVER["REMOTE_ADDR"]' || $string === '$_SERVER[\'REMOTE_ADDR\']') {

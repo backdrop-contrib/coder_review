@@ -21,7 +21,13 @@
  * @author   Klaus Purer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Files_TxtFileLineLengthSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Files;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class TxtFileLineLengthSniff implements Sniff
 {
 
 
@@ -46,7 +52,7 @@ class Backdrop_Sniffs_Files_TxtFileLineLengthSniff implements PHP_CodeSniffer_Sn
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -3));
         if ($fileExtension === 'txt' || $fileExtension === '.md') {

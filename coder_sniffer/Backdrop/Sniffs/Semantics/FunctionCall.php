@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-abstract class Backdrop_Sniffs_Semantics_FunctionCall implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use Backdrop\Sniffs\Semantics\FunctionCallSniff;
+
+abstract class FunctionCall implements Sniff
 {
 
 
@@ -28,7 +35,7 @@ abstract class Backdrop_Sniffs_Semantics_FunctionCall implements PHP_CodeSniffer
     public function register()
     {
         // We do not listen for tokens, but for specific function calls.
-        Backdrop_Sniffs_Semantics_FunctionCallSniff::registerListener($this);
+        FunctionCallSniff::registerListener($this);
         return array();
 
     }//end register()
@@ -43,7 +50,7 @@ abstract class Backdrop_Sniffs_Semantics_FunctionCall implements PHP_CodeSniffer
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // Empty default implementation, because processFunctionCall() is used.
 
@@ -68,11 +75,11 @@ abstract class Backdrop_Sniffs_Semantics_FunctionCall implements PHP_CodeSniffer
      * @return void
      */
     public abstract function processFunctionCall(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         $openBracket,
         $closeBracket,
-        Backdrop_Sniffs_Semantics_FunctionCallSniff $sniff
+        FunctionCallSniff $sniff
     );
 
 

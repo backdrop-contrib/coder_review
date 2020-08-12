@@ -16,7 +16,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_EmptyInstallSniff extends Backdrop_Sniffs_Semantics_FunctionDefinition
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+use Backdrop\Sniffs\Semantics\FunctionDefinition;
+
+class EmptyInstallSniff extends FunctionDefinition
 {
 
 
@@ -31,7 +37,7 @@ class Backdrop_Sniffs_Semantics_EmptyInstallSniff extends Backdrop_Sniffs_Semant
      *
      * @return void
      */
-    public function processFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $functionPtr)
+    public function processFunction(File $phpcsFile, $stackPtr, $functionPtr)
     {
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -7));
         // Only check in *.install files.
@@ -46,7 +52,7 @@ class Backdrop_Sniffs_Semantics_EmptyInstallSniff extends Backdrop_Sniffs_Semant
         ) {
             // Check if there is a function body.
             $bodyPtr = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($tokens[$functionPtr]['scope_opener'] + 1),
                 $tokens[$functionPtr]['scope_closer'],
                 true

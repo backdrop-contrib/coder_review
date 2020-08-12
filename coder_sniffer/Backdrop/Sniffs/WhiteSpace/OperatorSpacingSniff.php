@@ -18,7 +18,12 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_WhiteSpace_OperatorSpacingSniff extends Squiz_Sniffs_WhiteSpace_OperatorSpacingSniff
+namespace Backdrop\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\OperatorSpacingSniff as Squiz_OperatorSpacingSniff;
+use PHP_CodeSniffer\Util\Tokens;
+
+class OperatorSpacingSniff extends Squiz_OperatorSpacingSniff
 {
 
 
@@ -29,9 +34,9 @@ class Backdrop_Sniffs_WhiteSpace_OperatorSpacingSniff extends Squiz_Sniffs_White
      */
     public function register()
     {
-        $comparison = PHP_CodeSniffer_Tokens::$comparisonTokens;
-        $operators  = PHP_CodeSniffer_Tokens::$operators;
-        $assignment = PHP_CodeSniffer_Tokens::$assignmentTokens;
+        $comparison = Tokens::$comparisonTokens;
+        $operators  = Tokens::$operators;
+        $assignment = Tokens::$assignmentTokens;
 
         return array_unique(
             array_merge($comparison, $operators, $assignment)
@@ -41,5 +46,3 @@ class Backdrop_Sniffs_WhiteSpace_OperatorSpacingSniff extends Squiz_Sniffs_White
 
 
 }//end class
-
-?>

@@ -19,7 +19,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_WhiteSpace_ScopeClosingBraceSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ScopeClosingBraceSniff implements Sniff
 {
 
     /**
@@ -37,7 +44,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeClosingBraceSniff implements PHP_CodeSniff
      */
     public function register()
     {
-        return PHP_CodeSniffer_Tokens::$scopeOpeners;
+        return Tokens::$scopeOpeners;
 
     }//end register()
 
@@ -51,7 +58,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeClosingBraceSniff implements PHP_CodeSniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -108,7 +115,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeClosingBraceSniff implements PHP_CodeSniff
                 || $tokens[$lastContent]['code'] !== T_OPEN_CURLY_BRACKET)
             {
                 $error = 'Closing brace must be on a line by itself';
-                $phpcsFile->addError($error, $scopeEnd);
+                $phpcsFile->addError($error, $scopeEnd, 'ClosingBrace');
             }
             return;
         }

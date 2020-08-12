@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class FunctionCallSniff implements Sniff
 {
 
     /**
@@ -84,7 +91,7 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens       = $phpcsFile->getTokens();
         $functionName = $tokens[$stackPtr]['content'];
@@ -98,7 +105,7 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
         }
 
         // Find the next non-empty token.
-        $openBracket = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr + 1), null, true);
+        $openBracket = $phpcsFile->findNext(Tokens::$emptyTokens, ($stackPtr + 1), null, true);
 
         $this->phpcsFile    = $phpcsFile;
         $this->functionCall = $stackPtr;
@@ -122,11 +129,11 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
      *
      * @return bool
      */
-    protected function isFunctionCall(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isFunctionCall(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         // Find the next non-empty token.
-        $openBracket = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr + 1), null, true);
+        $openBracket = $phpcsFile->findNext(Tokens::$emptyTokens, ($stackPtr + 1), null, true);
 
         if ($tokens[$openBracket]['code'] !== T_OPEN_PARENTHESIS) {
             // Not a function call.
@@ -139,7 +146,7 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
         }
 
         // Find the previous non-empty token.
-        $search   = PHP_CodeSniffer_Tokens::$emptyTokens;
+        $search   = Tokens::$emptyTokens;
         $search[] = T_BITWISE_AND;
         $previous = $phpcsFile->findPrevious($search, ($stackPtr - 1), null, true);
         if ($tokens[$previous]['code'] === T_FUNCTION) {
@@ -179,14 +186,14 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
 
         $tokens = $this->phpcsFile->getTokens();
         // Start token of the first argument.
-        $start = $this->phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($this->openBracket + 1), null, true);
+        $start = $this->phpcsFile->findNext(Tokens::$emptyTokens, ($this->openBracket + 1), null, true);
         if ($start === $this->closeBracket) {
             // Function call has no arguments, so return false.
             return false;
         }
 
         // End token of the last argument.
-        $end = $this->phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($this->closeBracket - 1), null, true);
+        $end = $this->phpcsFile->findPrevious(Tokens::$emptyTokens, ($this->closeBracket - 1), null, true);
         $lastArgEnd    = $end;
         $nextSeperator = $this->openBracket;
         $counter       = 1;
@@ -200,7 +207,7 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
             }
 
             // Update the end token of the current argument.
-            $end = $this->phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($nextSeperator - 1), null, true);
+            $end = $this->phpcsFile->findPrevious(Tokens::$emptyTokens, ($nextSeperator - 1), null, true);
             // Save the calculated findings for the current argument.
             $this->arguments[$counter] = array(
                                           'start' => $start,
@@ -211,7 +218,7 @@ class Backdrop_Sniffs_Semantics_FunctionCallSniff implements PHP_CodeSniffer_Sni
             }
 
             $counter++;
-            $start = $this->phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($nextSeperator + 1), null, true);
+            $start = $this->phpcsFile->findNext(Tokens::$emptyTokens, ($nextSeperator + 1), null, true);
             $end   = $lastArgEnd;
         }//end while
 

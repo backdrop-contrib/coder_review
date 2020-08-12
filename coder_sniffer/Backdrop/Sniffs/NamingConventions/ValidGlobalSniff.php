@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_NamingConventions_ValidGlobalSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ValidGlobalSniff implements Sniff
 {
 
     public $coreGlobals = array(
@@ -90,13 +97,13 @@ class Backdrop_Sniffs_NamingConventions_ValidGlobalSniff implements PHP_CodeSnif
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
         $varToken = $stackPtr;
         // Find variable names until we hit a semicolon.
-        $ignore   = PHP_CodeSniffer_Tokens::$emptyTokens;
+        $ignore   = Tokens::$emptyTokens;
         $ignore[] = T_SEMICOLON;
         while ($varToken = $phpcsFile->findNext($ignore, $varToken + 1, null, true, null, true)) {
             if ($tokens[$varToken]['code'] === T_VARIABLE
@@ -112,5 +119,3 @@ class Backdrop_Sniffs_NamingConventions_ValidGlobalSniff implements PHP_CodeSnif
 
 
 }//end class
-
-?>

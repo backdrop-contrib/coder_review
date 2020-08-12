@@ -18,7 +18,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_CSS_ClassDefinitionClosingBraceSpaceSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\CSS;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ClassDefinitionClosingBraceSpaceSniff implements Sniff
 {
 
     /**
@@ -50,7 +57,7 @@ class Backdrop_Sniffs_CSS_ClassDefinitionClosingBraceSpaceSniff implements PHP_C
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -61,7 +68,7 @@ class Backdrop_Sniffs_CSS_ClassDefinitionClosingBraceSpaceSniff implements PHP_C
             return;
         }
 
-        $prev = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr - 1), null, true);
+        $prev = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($stackPtr - 1), null, true);
         if ($prev !== false && $tokens[$prev]['line'] !== ($tokens[$stackPtr]['line'] - 1)) {
             $error = 'Expected exactly one new line before closing brace of class definition';
             $phpcsFile->addError($error, $stackPtr, 'SpacingBeforeClose');

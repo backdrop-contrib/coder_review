@@ -20,7 +20,13 @@
  * @author    Peter Philipp <peter.philipp@cando-image.com>
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Classes;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class ClassCreateInstanceSniff implements Sniff
 {
 
 
@@ -47,20 +53,20 @@ class Backdrop_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_CodeSniffe
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
         $nextParenthesis = $phpcsFile->findNext(array(T_OPEN_PARENTHESIS,T_SEMICOLON), $stackPtr, null, false, null, true);
         if ($tokens[$nextParenthesis]['code'] != T_OPEN_PARENTHESIS || $tokens[$nextParenthesis]['line'] != $tokens[$stackPtr]['line']) {
             $error  = 'Calling class constructors must always include parentheses';
-            $phpcsFile->addError($error, $nextParenthesis);
+            $phpcsFile->addError($error, $nextParenthesis, 'ClassConstructor');
             return;
         }
         
         if ($tokens[$nextParenthesis-1]['code'] == T_WHITESPACE) {
             $error  = 'Between the class name and the opening parenthesis spaces are not welcome';
-            $phpcsFile->addError($error, $nextParenthesis-1);
+            $phpcsFile->addError($error, $nextParenthesis-1, 'SpaceAfterClassName');
             return;
         }
     }//end process()

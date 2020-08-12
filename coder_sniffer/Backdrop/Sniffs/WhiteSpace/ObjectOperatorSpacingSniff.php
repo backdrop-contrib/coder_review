@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ObjectOperatorSpacingSniff implements Sniff
 {
 
 
@@ -41,11 +48,11 @@ class Backdrop_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP_CodeS
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
-        $prevToken = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $stackPtr - 1, null, true);
+        $prevToken = $phpcsFile->findPrevious(Tokens::$emptyTokens, $stackPtr - 1, null, true);
         // Line breaks are allowed before an object operator.
         if ($tokens[$stackPtr]['line'] === $tokens[$prevToken]['line']
             && $prevToken < ($stackPtr - 1)
@@ -55,7 +62,7 @@ class Backdrop_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP_CodeS
         }
 
         $nextType = $tokens[($stackPtr + 1)]['code'];
-        if (in_array($nextType, PHP_CodeSniffer_Tokens::$emptyTokens) === true) {
+        if (in_array($nextType, Tokens::$emptyTokens) === true) {
             $error = 'Space found after object operator';
             $phpcsFile->addError($error, $stackPtr, 'After');
         }
@@ -64,5 +71,3 @@ class Backdrop_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP_CodeS
 
 
 }//end class
-
-?>

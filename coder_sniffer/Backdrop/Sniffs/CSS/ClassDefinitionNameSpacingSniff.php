@@ -18,7 +18,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_CSS_ClassDefinitionNameSpacingSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\CSS;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class ClassDefinitionNameSpacingSniff implements Sniff
 {
 
     /**
@@ -50,7 +56,7 @@ class Backdrop_Sniffs_CSS_ClassDefinitionNameSpacingSniff implements PHP_CodeSni
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

@@ -17,7 +17,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_InstallHooksSniff extends Backdrop_Sniffs_Semantics_FunctionDefinition
+
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Files\File;
+use Backdrop\Sniffs\Semantics\FunctionDefinition;
+
+class InstallHooksSniff extends FunctionDefinition
 {
 
 
@@ -32,7 +38,7 @@ class Backdrop_Sniffs_Semantics_InstallHooksSniff extends Backdrop_Sniffs_Semant
      *
      * @return void
      */
-    public function processFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $functionPtr)
+    public function processFunction(File $phpcsFile, $stackPtr, $functionPtr)
     {
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -6));
         // Only check in *.module files.

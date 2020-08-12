@@ -21,7 +21,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class ScopeIndentSniff implements Sniff
 {
 
     /**
@@ -56,7 +63,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
      */
     public function register()
     {
-        return PHP_CodeSniffer_Tokens::$scopeOpeners;
+        return Tokens::$scopeOpeners;
 
     }//end register()
 
@@ -70,7 +77,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -82,7 +89,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
 
         if ($tokens[$stackPtr]['code'] === T_ELSE) {
             $next = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($stackPtr + 1),
                 null,
                 true
@@ -98,7 +105,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
         $firstToken = $stackPtr;
         for ($i = $stackPtr; $i >= 0; $i--) {
             // Record the first code token on the line.
-            if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$emptyTokens) === false) {
+            if (in_array($tokens[$i]['code'], Tokens::$emptyTokens) === false) {
                 $firstToken = $i;
             }
 
@@ -147,7 +154,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
 
             // If this token is another scope, skip it as it will be handled by
             // another call to this sniff.
-            if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$scopeOpeners) === true) {
+            if (in_array($tokens[$i]['code'], Tokens::$scopeOpeners) === true) {
                 if (isset($tokens[$i]['scope_opener']) === true) {
                     $i = $tokens[$i]['scope_closer'];
 
@@ -155,7 +162,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
                     // of the closer and should also be ignored. This most commonly happens with
                     // CASE statements that end with "break;", where we don't want to stop
                     // ignoring at the break, but rather at the semi-colon.
-                    $nextToken = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($i + 1), null, true);
+                    $nextToken = $phpcsFile->findNext(Tokens::$emptyTokens, ($i + 1), null, true);
                     if ($tokens[$nextToken]['code'] === T_SEMICOLON) {
                         $i = $nextToken;
                     }
@@ -220,8 +227,8 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
                 // Check to see if this constant string spans multiple lines.
                 // If so, then make sure that the strings on lines other than the
                 // first line are indented appropriately, based on their whitespace.
-                if (in_array($tokens[$firstToken]['code'], PHP_CodeSniffer_Tokens::$stringTokens) === true) {
-                    if (in_array($tokens[($firstToken - 1)]['code'], PHP_CodeSniffer_Tokens::$stringTokens) === true) {
+                if (in_array($tokens[$firstToken]['code'], Tokens::$stringTokens) === true) {
+                    if (in_array($tokens[($firstToken - 1)]['code'], Tokens::$stringTokens) === true) {
                         // If we find a string that directly follows another string
                         // then its just a string that spans multiple lines, so we
                         // don't need to check for indenting.
@@ -231,7 +238,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
 
                 // This is a special condition for T_DOC_COMMENT and C-style
                 // comments, which contain whitespace between each line.
-                if (in_array($tokens[$firstToken]['code'], PHP_CodeSniffer_Tokens::$commentTokens) === true) {
+                if (in_array($tokens[$firstToken]['code'], Tokens::$commentTokens) === true) {
                     $content = trim($tokens[$firstToken]['content']);
                     if (preg_match('|^/\*|', $content) !== 0) {
                         // Check to see if the end of the comment is on the same line
@@ -269,7 +276,7 @@ class Backdrop_Sniffs_WhiteSpace_ScopeIndentSniff implements PHP_CodeSniffer_Sni
                 if ($column >= $indent) {
                     // Ignore code between paranthesis (multi line function calls or
                     // arrays) and multi line statements.
-                    $before = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($firstToken - 1), $scopeOpener, true);
+                    $before = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($firstToken - 1), $scopeOpener, true);
                     if ($before !== $scopeOpener
                         && $tokens[$before]['code'] !== T_SEMICOLON
                         && $tokens[$before]['code'] !== T_CLOSE_CURLY_BRACKET

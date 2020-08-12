@@ -13,10 +13,6 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
-if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractPatternSniff not found');
-}
-
 /**
  * Verifies that control statements conform to their coding standards.
  *
@@ -29,7 +25,13 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_ControlStructures_ElseIfSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\ControlStructures;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class ElseIfSniff implements Sniff
 {
 
     /**
@@ -53,7 +55,7 @@ class Backdrop_Sniffs_ControlStructures_ElseIfSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
 
       $tokens = $phpcsFile->getTokens();

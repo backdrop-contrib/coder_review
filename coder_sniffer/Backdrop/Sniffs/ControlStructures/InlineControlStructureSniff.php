@@ -21,8 +21,13 @@
  * @package   PHP_CodeSniffer
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_ControlStructures_InlineControlStructureSniff
-extends Generic_Sniffs_ControlStructures_InlineControlStructureSniff
+
+namespace Backdrop\Sniffs\ControlStructures;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\ControlStructures\InlineControlStructureSniff as PHP_CodeSniffer_InlineControlStructureSniff;
+
+class InlineControlStructureSniff extends PHP_CodeSniffer_InlineControlStructureSniff
 {
 
     /**
@@ -34,7 +39,7 @@ extends Generic_Sniffs_ControlStructures_InlineControlStructureSniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

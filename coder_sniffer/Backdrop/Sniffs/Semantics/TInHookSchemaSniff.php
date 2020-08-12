@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_TInHookSchemaSniff extends Backdrop_Sniffs_Semantics_FunctionDefinition
+
+namespace Backdrop\Sniffs\Semantics;
+
+use Backdrop\Sniffs\Semantics\FunctionDefinition;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class TInHookSchemaSniff extends FunctionDefinition
 {
 
 
@@ -31,7 +38,7 @@ class Backdrop_Sniffs_Semantics_TInHookSchemaSniff extends Backdrop_Sniffs_Seman
      *
      * @return void
      */
-    public function processFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $functionPtr)
+    public function processFunction(File $phpcsFile, $stackPtr, $functionPtr)
     {
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -7));
         // Only check in *.install files.
@@ -54,7 +61,7 @@ class Backdrop_Sniffs_Semantics_TInHookSchemaSniff extends Backdrop_Sniffs_Seman
         while ($string !== false) {
             if ($tokens[$string]['content'] === 't') {
                 $opener = $phpcsFile->findNext(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    Tokens::$emptyTokens,
                     ($string + 1),
                     null,
                     true

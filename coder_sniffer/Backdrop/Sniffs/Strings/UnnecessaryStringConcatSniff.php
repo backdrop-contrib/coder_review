@@ -27,7 +27,15 @@
  * @version   Release: 1.3.1
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Strings_UnnecessaryStringConcatSniff extends Generic_Sniffs_Strings_UnnecessaryStringConcatSniff
+
+namespace Backdrop\Sniffs\Strings;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Strings\UnnecessaryStringConcatSniff as PHP_CodeSniffer_UnnecessaryStringConcatSniff;
+use Backdrop\Sniffs\Files\LineLengthSniff;
+
+class UnnecessaryStringConcatSniff extends PHP_CodeSniffer_UnnecessaryStringConcatSniff
 {
 
 
@@ -40,7 +48,7 @@ class Backdrop_Sniffs_Strings_UnnecessaryStringConcatSniff extends Generic_Sniff
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // Work out which type of file this is for.
         $tokens = $phpcsFile->getTokens();
@@ -60,7 +68,7 @@ class Backdrop_Sniffs_Strings_UnnecessaryStringConcatSniff extends Generic_Sniff
             return;
         }
 
-        $stringTokens = PHP_CodeSniffer_Tokens::$stringTokens;
+        $stringTokens = Tokens::$stringTokens;
         if (in_array($tokens[$prev]['code'], $stringTokens) === true
             && in_array($tokens[$next]['code'], $stringTokens) === true
         ) {
@@ -79,7 +87,7 @@ class Backdrop_Sniffs_Strings_UnnecessaryStringConcatSniff extends Generic_Sniff
 
                 // Before we throw an error check if the string is longer than
                 // the line length limit.
-                $lineLengthLimitSniff = new Backdrop_Sniffs_Files_LineLengthSniff;
+                $lineLengthLimitSniff = new LineLengthSniff();
 
                 $lineLenght = $lineLengthLimitSniff->getLineLength($phpcsFile, $tokens[$prev]['line']);
                 $stringLength = ($lineLenght + strlen($tokens[$next]['content']) - 4);

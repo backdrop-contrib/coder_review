@@ -9,9 +9,6 @@
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
 
-if (class_exists('PHP_CodeSniffer_CommentParser_ClassCommentParser', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_CommentParser_ClassCommentParser not found');
-}
 
 /**
  * Parses and verifies the doc comments for files.
@@ -27,7 +24,17 @@ if (class_exists('PHP_CodeSniffer_CommentParser_ClassCommentParser', true) === f
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
 
-class Backdrop_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
+namespace Backdrop\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+//use PHP_CodeSniffer\Exceptions\RuntimeException
+
+//if (class_exists('PHP_CodeSniffer_CommentParser_ClassCommentParser', true) === false) {
+//    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_CommentParser_ClassCommentParser not found');
+//}
+
+class Backdrop_Sniffs_Commenting_FileCommentSniff implements Sniff
 {
 
 
@@ -52,7 +59,7 @@ class Backdrop_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sni
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // We are only interested if this is the first open tag.
         if ($stackPtr !== 0) {

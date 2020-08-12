@@ -17,7 +17,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Util\Tokens;
+
+class Backdrop_Sniffs_Commenting_FunctionCommentSniff implements Sniff
 {
 
     /**
@@ -93,7 +100,7 @@ class Backdrop_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $this->currentFile = $phpcsFile;
 
@@ -121,7 +128,7 @@ class Backdrop_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer
             // The function might actually be missing a comment, and this last comment
             // found is just commenting a bit of code on a line. So if it is not the
             // only thing on the line, assume we found nothing.
-            $prevContent = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $commentEnd);
+            $prevContent = $phpcsFile->findPrevious(Tokens::$emptyTokens, $commentEnd);
             if ($tokens[$commentEnd]['line'] === $tokens[$commentEnd]['line']) {
                 $error = 'Missing function doc comment';
                 $phpcsFile->addError($error, $stackPtr, 'Missing');
@@ -142,7 +149,7 @@ class Backdrop_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer
 
         // If there is any code between the function keyword and the doc block
         // then the doc block is not for us.
-        $ignore    = PHP_CodeSniffer_Tokens::$scopeModifiers;
+        $ignore    = Tokens::$scopeModifiers;
         $ignore[]  = T_STATIC;
         $ignore[]  = T_WHITESPACE;
         $ignore[]  = T_ABSTRACT;

@@ -21,7 +21,13 @@
  * @author    Peter Philipp <peter.philipp@cando-image.com>
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Strings;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+
+class Backdrop_Sniffs_Strings_ConcatenationSpacingSniff implements Sniff
 {
 
 
@@ -40,7 +46,7 @@ class Backdrop_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_CodeSniff
     /**
      * Processes this test, when one of its tokens is encountered.
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         if ($tokens[($stackPtr - 1)]['code'] !== T_WHITESPACE || $tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
@@ -49,5 +55,3 @@ class Backdrop_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_CodeSniff
         }
     }
 }//end class
-
-?>

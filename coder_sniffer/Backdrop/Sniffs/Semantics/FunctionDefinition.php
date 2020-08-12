@@ -16,7 +16,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-abstract class Backdrop_Sniffs_Semantics_FunctionDefinition implements PHP_CodeSniffer_Sniff
+namespace Backdrop\Sniffs\Semantics;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+
+abstract class FunctionDefinition implements Sniff
 {
 
 
@@ -41,12 +47,12 @@ abstract class Backdrop_Sniffs_Semantics_FunctionDefinition implements PHP_CodeS
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         // Check if this is a function definition.
         $functionPtr = $phpcsFile->findPrevious(
-            PHP_CodeSniffer_Tokens::$emptyTokens,
+            Tokens::$emptyTokens,
             ($stackPtr - 1),
             null,
             true
@@ -69,7 +75,7 @@ abstract class Backdrop_Sniffs_Semantics_FunctionDefinition implements PHP_CodeS
      *
      * @return void
      */
-    public abstract function processFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $functionPtr);
+    public abstract function processFunction(File $phpcsFile, $stackPtr, $functionPtr);
 
 
 }//end class

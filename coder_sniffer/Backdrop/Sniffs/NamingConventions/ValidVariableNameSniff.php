@@ -18,9 +18,13 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
 
-    extends PHP_CodeSniffer_Standards_AbstractVariableSniff
+namespace Backdrop\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
+
+class ValidVariableNameSniff extends AbstractVariableSniff
 {
 
 
@@ -33,7 +37,7 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
      *
      * @return void
      */
-    protected function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processMemberVar(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -61,7 +65,7 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
      *
      * @return void
      */
-    protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariable(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -91,7 +95,7 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
 
         if (preg_match('/[A-Z]/', $varName)) {
             $error = "Variable \"$varName\" is camel caps format. do not use mixed case (camelCase), use lower case and _";
-            $phpcsFile->addError($error, $stackPtr);
+            $phpcsFile->addError($error, $stackPtr, 'CamelCase');
         }
 
     }//end processVariable()
@@ -105,7 +109,7 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
      *
      * @return void
      */
-    protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariableInString(File $phpcsFile, $stackPtr)
     {
         // We don't care about variables in strings.
 

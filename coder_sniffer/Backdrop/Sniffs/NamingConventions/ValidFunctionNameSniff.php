@@ -14,10 +14,6 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
-if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractScopeSniff not found');
-}
-
 /**
  * Backdrop_Sniffs_NamingConventions_ValidFunctionNameSniff.
  *
@@ -34,7 +30,13 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff
+
+namespace Backdrop\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\PEAR\Sniffs\NamingConventions\ValidVariableNameSniff as PEAR_ValidFunctionNameSniff;
+
+class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
 {
 
     /**
@@ -47,48 +49,48 @@ class Backdrop_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_Snif
      *
      * @return void
      */
-    protected function processTokenWithinScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $currScope)
-    {
-        $methodName = $phpcsFile->getDeclarationName($stackPtr);
-        if ($methodName === null) {
-            // Ignore closures.
-            return;
-        }
-
-        $className = $phpcsFile->getDeclarationName($currScope);
-        $errorData = array($className.'::'.$methodName);
-
-        // Is this a magic method. i.e., is prefixed with "__" ?
-        if (preg_match('|^__|', $methodName) !== 0) {
-            $magicPart = strtolower(substr($methodName, 2));
-            if (in_array($magicPart, $this->magicMethods) === false) {
-                 $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
-                 $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
-            }
-
-            return;
-        }
-
-        $methodProps    = $phpcsFile->getMethodProperties($stackPtr);
-        $scope          = $methodProps['scope'];
-        $scopeSpecified = $methodProps['scope_specified'];
-
-        // Methods should not contain underscores.
-        if (strpos($methodName, '_') !== false) {
-          if ($scopeSpecified === true) {
-              $error = '%s method name "%s" is not in lowerCamel format, it must not contain underscores';
-              $data  = array(
-              ucfirst($scope),
-              $errorData[0],
-              );
-              $phpcsFile->addError($error, $stackPtr, 'ScopeNotLowerCamel', $data);
-          } else {
-              $error = 'Method name "%s" is not in lowerCamel format, it must not contain underscores';
-              $phpcsFile->addError($error, $stackPtr, 'NotLowerCamel', $errorData);
-          }
-        }
-
-    }//end processTokenWithinScope()
+//    protected function processTokenWithinScope(File $phpcsFile, $stackPtr, $currScope)
+//    {
+//        $methodName = $phpcsFile->getDeclarationName($stackPtr);
+//        if ($methodName === null) {
+//            // Ignore closures.
+//            return;
+//        }
+//
+//        $className = $phpcsFile->getDeclarationName($currScope);
+//        $errorData = array($className.'::'.$methodName);
+//
+//        // Is this a magic method. i.e., is prefixed with "__" ?
+//        if (preg_match('|^__|', $methodName) !== 0) {
+//            $magicPart = strtolower(substr($methodName, 2));
+//            if (in_array($magicPart, $this->magicMethods) === false) {
+//                 $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
+//                 $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
+//            }
+//
+//            return;
+//        }
+//
+//        $methodProps    = $phpcsFile->getMethodProperties($stackPtr);
+//        $scope          = $methodProps['scope'];
+//        $scopeSpecified = $methodProps['scope_specified'];
+//
+//        // Methods should not contain underscores.
+//        if (strpos($methodName, '_') !== false) {
+//          if ($scopeSpecified === true) {
+//              $error = '%s method name "%s" is not in lowerCamel format, it must not contain underscores';
+//              $data  = array(
+//              ucfirst($scope),
+//              $errorData[0],
+//              );
+//              $phpcsFile->addError($error, $stackPtr, 'ScopeNotLowerCamel', $data);
+//          } else {
+//              $error = 'Method name "%s" is not in lowerCamel format, it must not contain underscores';
+//              $phpcsFile->addError($error, $stackPtr, 'NotLowerCamel', $errorData);
+//          }
+//        }
+//
+//    }//end processTokenWithinScope()
 
 
     /**
@@ -100,11 +102,11 @@ class Backdrop_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_Snif
      *
      * @return void
      */
-    protected function processTokenOutsideScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        // Empty override, does not apply to Backdrop.
-
-    }//end processTokenOutsideScope()
+//    protected function processTokenOutsideScope(File $phpcsFile, $stackPtr)
+//    {
+//        // Empty override, does not apply to Backdrop.
+//
+//    }//end processTokenOutsideScope()
 
 
 }//end class

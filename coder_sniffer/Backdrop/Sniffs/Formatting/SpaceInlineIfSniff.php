@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Formatting_SpaceInlineIfSniff implements PHP_CodeSniffer_Sniff
+
+namespace Backdrop\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\OperatorSpacingSniff;
+
+class SpaceInlineIfSniff implements Sniff
 {
 
 
@@ -44,7 +51,7 @@ class Backdrop_Sniffs_Formatting_SpaceInlineIfSniff implements PHP_CodeSniffer_S
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens   = $phpcsFile->getTokens();
         $operator = $tokens[$stackPtr]['content'];
@@ -92,12 +99,10 @@ class Backdrop_Sniffs_Formatting_SpaceInlineIfSniff implements PHP_CodeSniffer_S
         }
 
         // Reuse the standard operator sniff now.
-        $sniff = new Squiz_Sniffs_WhiteSpace_OperatorSpacingSniff();
+        $sniff = new OperatorSpacingSniff();
         $sniff->process($phpcsFile, $stackPtr);
 
     }//end process()
 
 
 }//end class
-
-?>

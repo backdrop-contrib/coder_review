@@ -16,7 +16,14 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Semantics_FunctionWatchdogSniff extends Backdrop_Sniffs_Semantics_FunctionCall
+
+namespace Backdrop\Sniffs\Semantics;
+
+use Backdrop\Sniffs\Semantics\FunctionCall;
+use Backdrop\Sniffs\Semantics\FunctionCallSniff;
+use PHP_CodeSniffer\Files\File;
+
+class FunctionWatchdogSniff extends FunctionCall
 {
 
 
@@ -50,11 +57,11 @@ class Backdrop_Sniffs_Semantics_FunctionWatchdogSniff extends Backdrop_Sniffs_Se
      * @return void
      */
     public function processFunctionCall(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         $openBracket,
         $closeBracket,
-        Backdrop_Sniffs_Semantics_FunctionCallSniff $sniff
+        FunctionCallSniff $sniff
     ) {
         $tokens = $phpcsFile->getTokens();
         // Get the second argument passed to watchdog().
