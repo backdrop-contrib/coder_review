@@ -1,13 +1,16 @@
 <?php
 /**
- * Backdrop_Sniffs_Classes_InterfaceNameSniff.
- *
- * PHP version 5
+ * \Backdrop\Sniffs\Classes\InterfaceNameSniff.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
+
+namespace Backdrop\Sniffs\Classes;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Checks that interface names end with "Interface".
@@ -16,18 +19,18 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Classes_InterfaceNameSniff implements PHP_CodeSniffer_Sniff
+class InterfaceNameSniff implements Sniff
 {
 
 
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return array<int|string>
      */
     public function register()
     {
-        return array(T_INTERFACE);
+        return [T_INTERFACE];
 
     }//end register()
 
@@ -35,13 +38,13 @@ class Backdrop_Sniffs_Classes_InterfaceNameSniff implements PHP_CodeSniffer_Snif
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in
-     *                                        the stack passed in $tokens.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token in
+     *                                               the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens  = $phpcsFile->getTokens();
         $namePtr = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
@@ -55,5 +58,3 @@ class Backdrop_Sniffs_Classes_InterfaceNameSniff implements PHP_CodeSniffer_Snif
 
 
 }//end class
-
-?>
