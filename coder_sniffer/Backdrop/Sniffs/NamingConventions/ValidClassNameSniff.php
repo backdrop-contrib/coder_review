@@ -1,8 +1,6 @@
 <?php
 /**
- * Backdrop_Sniffs_NamingConventions_ValidClassNameSniff.
- *
- * PHP version 5
+ * \Backdrop\Sniffs\NamingConventions\ValidClassNameSniff.
  *
  * @category  PHP
  * @package   PHP_CodeSniffer
@@ -13,8 +11,13 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
+namespace Backdrop\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
- * Backdrop_Sniffs_NamingConventions_ValidClassNameSniff.
+ * \Backdrop\Sniffs\NamingConventions\ValidClassNameSniff.
  *
  * Ensures class and interface names start with a capital letter
  * and do not use _ separators.
@@ -28,21 +31,21 @@
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeSniffer_Sniff
+class ValidClassNameSniff implements Sniff
 {
 
 
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return array<int|string>
      */
     public function register()
     {
-        return array(
-                T_CLASS,
-                T_INTERFACE,
-               );
+        return [
+            T_CLASS,
+            T_INTERFACE,
+        ];
 
     }//end register()
 
@@ -50,19 +53,19 @@ class Backdrop_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeS
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being processed.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The current file being processed.
+     * @param int                         $stackPtr  The position of the current token
+     *                                               in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
         $className = $phpcsFile->findNext(T_STRING, $stackPtr);
         $name      = trim($tokens[$className]['content']);
-        $errorData = array(ucfirst($tokens[$stackPtr]['content']));
+        $errorData = [ucfirst($tokens[$stackPtr]['content'])];
 
         // Make sure the first letter is a capital.
         if (preg_match('|^[A-Z]|', $name) === 0) {
@@ -80,6 +83,3 @@ class Backdrop_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeS
 
 
 }//end class
-
-
-?>

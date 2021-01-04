@@ -1,16 +1,19 @@
 <?php
 /**
- * Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff.
- *
- * PHP version 5
+ * \Backdrop\Sniffs\NamingConventions\ValidVariableNameSniff.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
 
+namespace Backdrop\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
+
 /**
- * Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff.
+ * \Backdrop\Sniffs\NamingConventions\ValidVariableNameSniff.
  *
  * Checks the naming of member variables.
  *
@@ -18,22 +21,20 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
-
-    extends PHP_CodeSniffer_Standards_AbstractVariableSniff
+class ValidVariableNameSniff extends AbstractVariableSniff
 {
 
 
     /**
      * Processes class member variables.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token
+     *                                               in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processMemberVar(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -42,13 +43,52 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
             return;
         }
 
-        $memberName = ltrim($tokens[$stackPtr]['content'], '$');
+        // Check if the class extends another class and get the name of the class
+        // that is extended.
+        if (empty($tokens[$stackPtr]['conditions']) === false) {
+            $classPtr    = key($tokens[$stackPtr]['conditions']);
+            $extendsName = $phpcsFile->findExtendedClassName($classPtr);
 
-        if (strpos($memberName, '_') !== false) {
-            $error = 'Class property %s should use lowerCamel naming without underscores';
-            $data  = array($tokens[$stackPtr]['content']);
-            $phpcsFile->addError($error, $stackPtr, 'LowerCamelName', $data);
+            // Special case config entities: those are allowed to have underscores in
+            // their class property names. If a class extends something like
+            // ConfigEntityBase then we consider it a config entity class and allow
+            // underscores.
+            if ($extendsName !== false && strpos($extendsName, 'ConfigEntity') !== false) {
+                return;
+            }
+
+            // Plugin annotations may have underscores in class properties.
+            // For example, see \Backdrop\Core\Field\Annotation\FieldFormatter.
+            // The only class named "Plugin" in Backdrop core is
+            // \Backdrop\Component\Annotation\Plugin while many Views plugins
+            // extend \Backdrop\views\Annotation\ViewsPluginAnnotationBase.
+            if ($extendsName !== false && in_array(
+                $extendsName,
+                [
+                    'Plugin',
+                    'ViewsPluginAnnotationBase',
+                ]
+            ) !== false
+            ) {
+                return;
+            }
+
+            $implementsNames = $phpcsFile->findImplementedInterfaceNames($classPtr);
+            if ($implementsNames !== false && in_array('AnnotationInterface', $implementsNames) !== false) {
+                return;
+            }
+        }//end if
+
+        // The name of a property must start with a lowercase letter, properties
+        // with underscores are not allowed, except the cases handled above.
+        $memberName = ltrim($tokens[$stackPtr]['content'], '$');
+        if (preg_match('/^[a-z]/', $memberName) === 1 && strpos($memberName, '_') === false) {
+            return;
         }
+
+        $error = 'Class property %s should use lowerCamel naming without underscores';
+        $data  = [$tokens[$stackPtr]['content']];
+        $phpcsFile->addError($error, $stackPtr, 'LowerCamelName', $data);
 
     }//end processMemberVar()
 
@@ -56,28 +96,28 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
     /**
      * Processes normal variables.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param int                  $stackPtr  The position where the token was found.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file where this token was found.
+     * @param int                         $stackPtr  The position where the token was found.
      *
      * @return void
      */
-    protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariable(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
         $varName = ltrim($tokens[$stackPtr]['content'], '$');
 
-        $phpReservedVars = array(
-                            '_SERVER',
-                            '_GET',
-                            '_POST',
-                            '_REQUEST',
-                            '_SESSION',
-                            '_ENV',
-                            '_COOKIE',
-                            '_FILES',
-                            'GLOBALS',
-                           );
+        $phpReservedVars = [
+            '_SERVER',
+            '_GET',
+            '_POST',
+            '_REQUEST',
+            '_SESSION',
+            '_ENV',
+            '_COOKIE',
+            '_FILES',
+            'GLOBALS',
+        ];
 
         // If it's a php reserved var, then its ok.
         if (in_array($varName, $phpReservedVars) === true) {
@@ -89,9 +129,9 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
             return;
         }
 
-        if (preg_match('/[A-Z]/', $varName)) {
-            $error = "Variable \"$varName\" is camel caps format. do not use mixed case (camelCase), use lower case and _";
-            $phpcsFile->addError($error, $stackPtr);
+        if (preg_match('/^[A-Z]/', $varName) === 1) {
+            $error = "Variable \"$varName\" starts with a capital letter, but only \$lowerCamelCase or \$snake_case is allowed";
+            $phpcsFile->addError($error, $stackPtr, 'LowerStart');
         }
 
     }//end processVariable()
@@ -100,18 +140,17 @@ class Backdrop_Sniffs_NamingConventions_ValidVariableNameSniff
     /**
      * Processes variables in double quoted strings.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param int                  $stackPtr  The position where the token was found.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file where this token was found.
+     * @param int                         $stackPtr  The position where the token was found.
      *
      * @return void
      */
-    protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariableInString(File $phpcsFile, $stackPtr)
     {
         // We don't care about variables in strings.
+        return;
 
     }//end processVariableInString()
 
 
 }//end class
-
-?>

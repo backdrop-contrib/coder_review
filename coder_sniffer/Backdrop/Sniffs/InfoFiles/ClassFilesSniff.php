@@ -1,13 +1,16 @@
 <?php
 /**
- * Backdrop_Sniffs_InfoFiles_ClassFilesSniff.
- *
- * PHP version 5
+ * \Backdrop\Sniffs\InfoFiles\ClassFilesSniff.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
+
+namespace Backdrop\Sniffs\InfoFiles;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Checks files[] entries in info files. Only files containing classes/interfaces
@@ -17,18 +20,18 @@
  * @package  PHP_CodeSniffer
  * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
+class ClassFilesSniff implements Sniff
 {
 
 
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return array<int|string>
      */
     public function register()
     {
-        return array(T_INLINE_HTML);
+        return [T_INLINE_HTML];
 
     }//end register()
 
@@ -36,23 +39,18 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token in the
+     *                                               stack passed in $tokens.
      *
-     * @return void
+     * @return int
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
+        // Only run this sniff once per info file.
         $fileExtension = strtolower(substr($phpcsFile->getFilename(), -4));
         if ($fileExtension !== 'info') {
-            return;
-        }
-
-        $tokens = $phpcsFile->getTokens();
-        // Only run this sniff once per info file.
-        if ($tokens[$stackPtr]['line'] !== 1) {
-            return;
+            return ($phpcsFile->numTokens + 1);
         }
 
         $contents = file_get_contents($phpcsFile->getFilename());
@@ -73,15 +71,20 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
                 // a class or interface definition.
                 $searchTokens = token_get_all(file_get_contents($fileName));
                 foreach ($searchTokens as $token) {
-                    if (is_array($token) === true && ($token[0] === T_CLASS || $token[0] === T_INTERFACE)) {
+                    if (is_array($token) === true
+                        && in_array($token[0], [T_CLASS, T_INTERFACE, T_TRAIT]) === true
+                    ) {
                         continue 2;
                     }
                 }
+
                 $ptr   = self::getPtr('files[]', $file, $phpcsFile);
                 $error = "It's only necessary to declare files[] if they declare a class or interface.";
                 $phpcsFile->addError($error, $ptr, 'UnecessaryFileDeclaration');
             }//end foreach
         }//end if
+
+        return ($phpcsFile->numTokens + 1);
 
     }//end process()
 
@@ -89,14 +92,14 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
     /**
      * Helper function that returns the position of the key in the info file.
      *
-     * @param string               $key      Key name to search for.
-     * @param string               $value    Corresponding value to search for.
-     * @param PHP_CodeSniffer_File $infoFile Info file to search in.
+     * @param string                      $key      Key name to search for.
+     * @param string                      $value    Corresponding value to search for.
+     * @param \PHP_CodeSniffer\Files\File $infoFile Info file to search in.
      *
      * @return int|false Returns the stack position if the file name is found, false
-     * 									 otherwise.
+     *                                      otherwise.
      */
-    public static function getPtr($key, $value, PHP_CodeSniffer_File $infoFile)
+    public static function getPtr($key, $value, File $infoFile)
     {
         foreach ($infoFile->getTokens() as $ptr => $tokenInfo) {
             if (preg_match('@^[\s]*'.preg_quote($key).'[\s]*=[\s]*["\']?'.preg_quote($value).'["\']?@', $tokenInfo['content']) === 1) {
@@ -114,14 +117,15 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
      *
      * @param string $data The contents of the info file to parse
      *
-     * @return array The info array.
+     * @return array<mixed> The info array.
      */
     public static function backdropParseInfoFormat($data)
     {
-        $info = array();
+        $info      = [];
         $constants = get_defined_constants();
 
-        if (preg_match_all('
+        if (preg_match_all(
+            '
           @^\s*                           # Start at the beginning of a line, ignoring leading whitespace
           ((?:
             [^=;\[\]]|                    # Key names cannot contain equal signs, semi-colons or square brackets,
@@ -133,43 +137,56 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
             (\'(?:[^\']|(?<=\\\\)\')*\')| # Single-quoted string, which may contain slash-escaped quotes/slashes
             ([^\r\n]*?)                   # Non-quoted string
           )\s*$                           # Stop at the next end of a line, ignoring trailing whitespace
-          @msx', $data, $matches, PREG_SET_ORDER)) {
-          foreach ($matches as $match) {
-            // Fetch the key and value string.
-            $i = 0;
-            foreach (array('key', 'value1', 'value2', 'value3') as $var) {
-              $$var = isset($match[++$i]) ? $match[$i] : '';
-            }
-            $value = stripslashes(substr($value1, 1, -1)) . stripslashes(substr($value2, 1, -1)) . $value3;
+          @msx',
+            $data,
+            $matches,
+            PREG_SET_ORDER
+        ) !== false
+        ) {
+            foreach ($matches as $match) {
+                // Fetch the key and value string.
+                $i = 0;
+                foreach (['key', 'value1', 'value2', 'value3'] as $var) {
+                    if (isset($match[++$i]) === true) {
+                        $$var = $match[$i];
+                    } else {
+                        $$var = '';
+                    }
+                }
 
-            // Parse array syntax.
-            $keys = preg_split('/\]?\[/', rtrim($key, ']'));
-            $last = array_pop($keys);
-            $parent = &$info;
+                $value = stripslashes(substr($value1, 1, -1)).stripslashes(substr($value2, 1, -1)).$value3;
 
-            // Create nested arrays.
-            foreach ($keys as $key) {
-              if ($key == '') {
-                $key = count($parent);
-              }
-              if (!isset($parent[$key]) || !is_array($parent[$key])) {
-                $parent[$key] = array();
-              }
-              $parent = &$parent[$key];
-            }
+                // Parse array syntax.
+                $keys   = preg_split('/\]?\[/', rtrim($key, ']'));
+                $last   = array_pop($keys);
+                $parent = &$info;
 
-            // Handle PHP constants.
-            if (isset($constants[$value])) {
-              $value = $constants[$value];
-            }
+                // Create nested arrays.
+                foreach ($keys as $key) {
+                    if ($key === '') {
+                        $key = count($parent);
+                    }
 
-            // Insert actual value.
-            if ($last == '') {
-              $last = count($parent);
-            }
-            $parent[$last] = $value;
-          }
-        }
+                    if (isset($parent[$key]) === false || is_array($parent[$key]) === false) {
+                        $parent[$key] = [];
+                    }
+
+                    $parent = &$parent[$key];
+                }
+
+                // Handle PHP constants.
+                if (isset($constants[$value]) === true) {
+                    $value = $constants[$value];
+                }
+
+                // Insert actual value.
+                if ($last === '') {
+                    $last = count($parent);
+                }
+
+                $parent[$last] = $value;
+            }//end foreach
+        }//end if
 
         return $info;
 
@@ -177,5 +194,3 @@ class Backdrop_Sniffs_InfoFiles_ClassFilesSniff implements PHP_CodeSniffer_Sniff
 
 
 }//end class
-
-?>

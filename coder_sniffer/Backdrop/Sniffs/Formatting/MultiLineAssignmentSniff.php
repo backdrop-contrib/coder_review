@@ -1,19 +1,19 @@
 <?php
 /**
- * PEAR_Sniffs_Functions_FunctionDeclarationSniff.
+ * \Backdrop\Sniffs\Formatting\MultiLineAssignmentSniff.
  *
- * PHP version 5
- *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
 
+namespace Backdrop\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
- * Backdrop_Sniffs_Formatting_MultiLineAssignmentSniff.
+ * \Backdrop\Sniffs\Formatting\MultiLineAssignmentSniff.
  *
  * If an assignment goes over two lines, ensure the equal sign is indented.
  *
@@ -25,18 +25,18 @@
  * @version   Release: 1.2.0RC3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Backdrop_Sniffs_Formatting_MultiLineAssignmentSniff implements PHP_CodeSniffer_Sniff
+class MultiLineAssignmentSniff implements Sniff
 {
 
 
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return array<int|string>
      */
     public function register()
     {
-        return array(T_EQUAL);
+        return [T_EQUAL];
 
     }//end register()
 
@@ -44,13 +44,13 @@ class Backdrop_Sniffs_Formatting_MultiLineAssignmentSniff implements PHP_CodeSni
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token
+     *                                               in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -61,14 +61,8 @@ class Backdrop_Sniffs_Formatting_MultiLineAssignmentSniff implements PHP_CodeSni
             return;
         }
 
-        if ($tokens[$next]['line'] !== $tokens[$stackPtr]['line']) {
-            $error = 'Multi-line assignments must have the equal sign on the second line';
-            $phpcsFile->addError($error, $stackPtr);
-            return;
-        }
-
         // Make sure it is the first thing on the line, otherwise we ignore it.
-        $prev = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), false, true);
+        $prev = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
         if ($prev === false) {
             // Bad assignment.
             return;
@@ -99,11 +93,10 @@ class Backdrop_Sniffs_Formatting_MultiLineAssignmentSniff implements PHP_CodeSni
         $foundIndent    = strlen($tokens[$prev]['content']);
         if ($foundIndent !== $expectedIndent) {
             $error = "Multi-line assignment not indented correctly; expected $expectedIndent spaces but found $foundIndent";
-            $phpcsFile->addError($error, $stackPtr);
+            $phpcsFile->addError($error, $stackPtr, 'MultiLineAssignmentIndent');
         }
 
     }//end process()
 
-}//end class
 
-?>
+}//end class
